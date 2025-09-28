@@ -12,3 +12,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+dialog {
+  /* border-radius: 10px; */
+}
+input {
+  font: inherit;
+}
