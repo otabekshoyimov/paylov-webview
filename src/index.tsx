@@ -66,9 +66,7 @@ export function BottoSheet() {
             )}
 
             <div className="text-base">
-              <span className="outline-solid rounded-md px-8 py-1 shadow outline outline-zinc-300/10">
-                +998
-              </span>
+              <span className="pr-8">+998</span>
               <input
                 type="number"
                 defaultValue={saved.phoneNumber || ""}
@@ -93,7 +91,7 @@ export function BottoSheet() {
           </div>
           <button
             type="submit"
-            className="rounded-2xl bg-brand-green px-16 py-4 text-white"
+            className="rounded-2xl bg-brand-green px-16 py-4 text-white shadow"
           >
             Buyurtmani boshlash
           </button>

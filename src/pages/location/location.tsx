@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { Link, redirect, useFetcher } from "react-router";
-import { ChevronLeft } from "lucide-react";
+import "leaflet/dist/leaflet.css";
+import { useEffect, useState } from "react";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import { redirect, useFetcher } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 
 const DefaultIcon = L.icon({
@@ -52,7 +51,7 @@ export function LocationPage() {
   return (
     <>
       <div className="flex h-screen w-full flex-col">
-        <div className="pb-8">
+        <div className="p-8 pb-8">
           <BackButton link={"/"} />
         </div>
         <div className="flex-1 pb-8">
@@ -80,7 +79,7 @@ export function LocationPage() {
           )}
         </div>
 
-        <div className="pb-16">
+        <div className="p-8 pb-16">
           <fetcher.Form method="POST">
             <input
               type="hidden"
@@ -89,7 +88,7 @@ export function LocationPage() {
             />
             <button
               type="submit"
-              className="py-3 w-full rounded-2xl bg-brand-green px-6 font-medium text-white"
+              className="py-3 w-full rounded-2xl bg-brand-green px-6 font-medium text-white shadow"
             >
               Send Location
             </button>
