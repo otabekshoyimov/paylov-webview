@@ -8,7 +8,8 @@ import {
 import "./index.css";
 import { Root } from "./root.tsx";
 import { BottoSheet, indexAction } from "./index.tsx";
-import { LocationPage } from "./pages/location/location.tsx";
+import { LocationAction, LocationPage } from "./pages/location/location.tsx";
+import { ShopPage } from "./pages/shop/shop.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
       {
         path: "/location",
         element: <LocationPage />,
+        action: LocationAction,
+      },
+      {
+        path: "/shop",
+        element: <ShopPage />,
       },
     ],
   },
