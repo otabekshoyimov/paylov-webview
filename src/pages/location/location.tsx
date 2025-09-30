@@ -5,6 +5,8 @@ import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { Link, redirect, useFetcher } from "react-router";
+import { ChevronLeft } from "lucide-react";
+import { BackButton } from "../../shared/components/back-button";
 
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -51,9 +53,7 @@ export function LocationPage() {
     <>
       <div className="flex h-screen w-full flex-col">
         <div className="pb-8">
-          <Link to={"/"} className="rounded-2xl bg-gray-300/10 px-16 py-2">
-            back
-          </Link>
+          <BackButton link={"/"} />
         </div>
         <div className="flex-1 pb-8">
           {position && (

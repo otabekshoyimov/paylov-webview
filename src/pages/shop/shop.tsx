@@ -1,12 +1,11 @@
-import { Link, useFetcher } from "react-router";
+import { useFetcher } from "react-router";
+import { BackButton } from "../../shared/components/back-button";
 
 export function ShopPage() {
   return (
     <section>
       <header className="pb-8">
-        <Link to={"/location"} className="rounded-2xl bg-gray-400 px-16 py-2">
-          back
-        </Link>
+        <BackButton link={"/location"} />
       </header>
       <main className="flex gap-8">
         <GasgoOrderItem header="Ai 95" price={11000} />
