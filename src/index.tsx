@@ -71,7 +71,7 @@ export function BottoSheet() {
                 type="text"
                 placeholder="Ism Sharifingiz"
                 name="fullName"
-                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white shadow ring-brand-green focus:ring"
+                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white shadow ring-brand-green focus:outline-none focus:ring"
               />
             </div>
             {errors?.fullName && (
