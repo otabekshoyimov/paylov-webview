@@ -88,7 +88,7 @@ export function LocationPage() {
             />
             <button
               type="submit"
-              className="w-full rounded-2xl bg-brand-green/10 px-16 py-4 font-medium text-white shadow outline outline-[0.9px] outline-brand-green"
+              className="w-full rounded-md bg-brand-green/10 px-24 py-10 font-medium text-white shadow outline outline-[0.9px] outline-brand-green drop-shadow-md"
             >
               Manzilni yuborish
             </button>

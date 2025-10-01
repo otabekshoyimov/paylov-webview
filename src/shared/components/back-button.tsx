@@ -6,7 +6,7 @@ export function BackButton(props: { link: string }) {
     <section>
       <Link
         to={props.link}
-        className="flex w-fit rounded-2xl bg-zinc-300/10 p-4 shadow"
+        className="flex w-fit rounded-md bg-zinc-300/10 p-10 drop-shadow-md"
       >
         <ChevronLeft color="white" />
       </Link>

@@ -45,9 +45,9 @@ export function ShopPage() {
         ))}
       </main>
       <footer className="mt-auto px-8 pb-8">
-        <fetcher.Form className="flex justify-between">
+        <fetcher.Form className="flex items-center justify-between">
           <span>Jami: {getTotalQuantity()} so'm</span>
-          <button className="rounded-2xl bg-brand-green/10 px-16 py-2 text-white shadow outline outline-[0.9px] outline-brand-green">
+          <button className="rounded-md bg-brand-green/10 px-24 py-10 text-white shadow outline outline-[0.9px] outline-brand-green drop-shadow-md">
             To'lovni tasdiqlash
           </button>
         </fetcher.Form>
@@ -66,11 +66,11 @@ function GasgoOrderItem(props: {
 
   return (
     <div className="flex w-full items-center gap-16">
-      <header className="min-w-fit justify-center text-center text-xl">
+      <header className="min-w-fit justify-center text-center text-lg">
         <span>{props.name}</span>
       </header>
 
-      <div className="flex w-full justify-between gap-8">
+      <div className="flex w-full items-center justify-between gap-8">
         <span className="text-center">{`${props.price} so'm`}</span>
         <fetcher.Form>
           <div className="flex items-center justify-center gap-16">
@@ -79,17 +79,19 @@ function GasgoOrderItem(props: {
               onClick={() =>
                 props.handleQuantityChange(props.name, props.quantity + 1)
               }
-              className="text-xl"
+              className="text-2xl"
             >
               +
             </button>
-            <span className="text-xl">{props.quantity}</span>
+            <span className="w-[2ch] text-center text-xl tabular-nums">
+              {props.quantity}
+            </span>
             <button
               type="button"
               onClick={() =>
                 props.handleQuantityChange(props.name, props.quantity - 1)
               }
-              className="text-xl"
+              className="text-2xl"
               disabled={props.quantity === 0}
             >
               -

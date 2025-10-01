@@ -71,7 +71,7 @@ export function BottoSheet() {
                 type="text"
                 placeholder="Ism Sharifingiz"
                 name="fullName"
-                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white ring-brand-green focus:outline-none focus:ring"
+                className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
             </div>
             {errors?.fullName && (
@@ -89,7 +89,7 @@ export function BottoSheet() {
                 onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   handlePhoneNumber(e)
                 }
-                className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 p-8 px-16 text-white focus:outline-none"
+                className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
               />
             </div>
             {errors?.phoneNumber && (
@@ -112,7 +112,7 @@ export function BottoSheet() {
           type="submit"
           form="gasgo-order"
           tabIndex={0}
-          className="w-full rounded-md bg-brand-green/10 px-16 py-4 text-white outline outline-[0.9px] outline-brand-green drop-shadow-md"
+          className="w-full rounded-md bg-brand-green/10 px-16 py-10 text-white outline outline-[0.9px] outline-brand-green drop-shadow-md"
         >
           Buyurtmani boshlash
         </button>

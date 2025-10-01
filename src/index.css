@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "InterVariable";
+  src: url("/InterVariable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,12 +21,13 @@
 }
 
 body {
-   /* background: radial-gradient(circle at 20% 30%, #ff00c8 0%, transparent 60%),
+  font-family: "InterVariable";
+  /* background: radial-gradient(circle at 20% 30%, #ff00c8 0%, transparent 60%),
               radial-gradient(circle at 80% 70%, #007aff 0%, transparent 60%),
               radial-gradient(circle at 50% 50%, #00ffcc 0%, transparent 60%),
               #0f0f0f;  */
-              /* ------ */
-              /* background: radial-gradient(circle at 20% 30%, #0f5248, transparent 0%),
+  /* ------ */
+  /* background: radial-gradient(circle at 20% 30%, #0f5248, transparent 0%),
 linear-gradient(180deg, #157a89, transparent 48%),
 radial-gradient(circle at 50% 50%, #00ffcc, transparent 0%),
 #0f0f0f; */
@@ -26,15 +35,15 @@ radial-gradient(circle at 50% 50%, #00ffcc, transparent 0%),
   background: #0f0f0f;
 }
 body::before {
-    content: "";
+  content: "";
   position: fixed; /* <- stays put, not resized */
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(circle at 20% 30%, #0f5248, transparent 0%),
-              linear-gradient(180deg, #157a89, transparent 48%),
-              radial-gradient(circle at 50% 50%, #00ffcc, transparent 0%),
-              #0f0f0f;
+  background:
+    radial-gradient(circle at 20% 30%, #0f5248, transparent 0%),
+    linear-gradient(180deg, #157a89, transparent 48%),
+    radial-gradient(circle at 50% 50%, #00ffcc, transparent 0%), #0f0f0f;
 }
 
 /* body::before{
@@ -50,7 +59,20 @@ body::before {
 } */
 
 .brand-btn-shadow {
-  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 6px #00000008,0 2px 6px #00000014,inset 3px 3px .5px -3px #000000e6,inset -3px -3px .5px -3px #000000d9,inset 1px 1px 1px -.5px #0009,inset -1px -1px 1px -.5px #0009,inset 0 0 6px 6px #0000001f,inset 0 0 2px 2px #0000000f,0 0 12px #ffffff26;
+  box-shadow:
+    0 0 #0000,
+    0 0 #0000,
+    0 0 #0000,
+    0 0 #0000,
+    0 0 6px #00000008,
+    0 2px 6px #00000014,
+    inset 3px 3px 0.5px -3px #000000e6,
+    inset -3px -3px 0.5px -3px #000000d9,
+    inset 1px 1px 1px -0.5px #0009,
+    inset -1px -1px 1px -0.5px #0009,
+    inset 0 0 6px 6px #0000001f,
+    inset 0 0 2px 2px #0000000f,
+    0 0 12px #ffffff26;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
