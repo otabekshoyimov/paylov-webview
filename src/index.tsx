@@ -100,8 +100,8 @@ export function BottoSheet() {
           </div>
         </fetcher.Form>
       </main>
-      <footer className="flex w-full flex-col gap-8 pb-16">
-        <div className="mx-auto max-w-[300px] text-center text-xs text-zinc-200">
+      <footer className="flex w-full flex-col gap-16 pb-16">
+        <div className="mx-auto max-w-[260px] text-center text-xs text-zinc-200">
           Davom etish orqali siz{" "}
           <span className="font-medium text-white">
             Foydalanish shartlariga{" "}
