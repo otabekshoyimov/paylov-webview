@@ -86,7 +86,7 @@ export function BottoSheet() {
                 type="tel"
                 placeholder="00 000 00 00"
                 name="phoneNumber"
-                onInput={(e: React.FormEvent<HTMLInputElement>) =>
+                onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   handlePhoneNumber(e)
                 }
                 className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 p-8 px-16 text-white focus:outline-none"
