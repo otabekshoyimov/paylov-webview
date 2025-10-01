@@ -59,7 +59,7 @@ export function BottoSheet() {
     e.currentTarget.value = formatted.trim();
   }
   return (
-    <section className="flex min-h-screen flex-col items-center justify-between gap-16 p-16">
+    <section className="flex min-h-[100svh] flex-col items-center justify-between gap-16 p-16">
       <header className="pb-16 pt-[36px]">
         <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
