@@ -59,7 +59,7 @@ export function BottoSheet() {
     e.currentTarget.value = formatted.trim();
   }
   return (
-    <section className="flex min-h-[100svh] flex-col items-center justify-between gap-16 p-16">
+    <section className="flex min-h-[100dvh] flex-col items-center justify-between gap-16 p-16">
       <header className="pb-16 pt-[36px]">
         <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
@@ -71,7 +71,7 @@ export function BottoSheet() {
                 type="text"
                 placeholder="Ism Sharifingiz"
                 name="fullName"
-                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white shadow ring-brand-green focus:outline-none focus:ring"
+                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white ring-brand-green focus:outline-none focus:ring"
               />
             </div>
             {errors?.fullName && (
@@ -80,7 +80,7 @@ export function BottoSheet() {
               </ValidationError>
             )}
 
-            <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white shadow ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
+            <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
               <span className="pr-16 text-white">+998</span>
               <input
                 type="tel"
