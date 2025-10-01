@@ -12,9 +12,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-dialog {
-  /* border-radius: 10px; */
+body {
+  min-height: 100vh;
+   /* background: radial-gradient(circle at 20% 30%, #ff00c8 0%, transparent 60%),
+              radial-gradient(circle at 80% 70%, #007aff 0%, transparent 60%),
+              radial-gradient(circle at 50% 50%, #00ffcc 0%, transparent 60%),
+              #0f0f0f;  */
+              background: radial-gradient(circle at 20% 30%, #0f5248, transparent 0%),
+linear-gradient(180deg, #157a89, transparent 48%),
+radial-gradient(circle at 50% 50%, #00ffcc, transparent 0%),
+#0f0f0f;
+  /* background-blend-mode: screen; */
 }
+
+/* body::before{
+  content:"";
+  position:absolute; inset:-30%;
+  background:
+    conic-gradient(from 278deg, rgba(69, 154, 138, 1), rgba(255, 255, 255, 0.03) 29.83%, transparent 86.13%);
+  filter: blur(65px) saturate(120%);
+  transform-origin:50% 50%;
+  animation: spin 18s linear infinite;
+  mix-blend-mode:screen;
+  pointer-events:none;
+} */
+
+.brand-btn-shadow {
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 6px #00000008,0 2px 6px #00000014,inset 3px 3px .5px -3px #000000e6,inset -3px -3px .5px -3px #000000d9,inset 1px 1px 1px -.5px #0009,inset -1px -1px 1px -.5px #0009,inset 0 0 6px 6px #0000001f,inset 0 0 2px 2px #0000000f,0 0 12px #ffffff26;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 input {
   font: inherit;
 }

@@ -29,11 +29,11 @@ export function ShopPage() {
 
   const fetcher = useFetcher();
   return (
-    <section className="flex min-h-screen flex-col p-8">
-      <header className="pb-8">
+    <section className="flex min-h-screen flex-col p-16 text-white">
+      <header className="pb-16">
         <BackButton link={"/location"} />
       </header>
-      <main className="flex gap-16 px-8">
+      <main className="flex flex-col gap-16 px-8">
         {items.map((item) => (
           <GasgoOrderItem
             key={item.name}
@@ -47,7 +47,7 @@ export function ShopPage() {
       <footer className="mt-auto px-8 pb-8">
         <fetcher.Form className="flex justify-between">
           <span>Jami: {getTotalQuantity()} so'm</span>
-          <button className="rounded-2xl bg-brand-green px-16 py-2 text-white shadow">
+          <button className="rounded-2xl bg-brand-green/10 px-16 py-2 text-white shadow outline outline-[0.9px] outline-brand-green">
             To'lovni tasdiqlash
           </button>
         </fetcher.Form>
@@ -65,37 +65,38 @@ function GasgoOrderItem(props: {
   const fetcher = useFetcher();
 
   return (
-    <div className="w-full">
-      <header className="justify-center pb-8 text-center text-2xl">
+    <div className="flex w-full items-center gap-16">
+      <header className="min-w-fit justify-center text-center text-xl">
         <span>{props.name}</span>
       </header>
-      <main>
+
+      <div className="flex w-full justify-between gap-8">
+        <span className="text-center">{`${props.price} so'm`}</span>
         <fetcher.Form>
-          <div>
-            <span className="text-center">{`${props.price} so'm`}</span>
-            <div className="flex justify-center gap-16">
-              <button
-                type="button"
-                onClick={() =>
-                  props.handleQuantityChange(props.name, props.quantity + 1)
-                }
-              >
-                +
-              </button>
-              <span>{props.quantity}</span>
-              <button
-                type="button"
-                onClick={() =>
-                  props.handleQuantityChange(props.name, props.quantity - 1)
-                }
-                disabled={props.quantity === 0}
-              >
-                -
-              </button>
-            </div>
+          <div className="flex items-center justify-center gap-16">
+            <button
+              type="button"
+              onClick={() =>
+                props.handleQuantityChange(props.name, props.quantity + 1)
+              }
+              className="text-xl"
+            >
+              +
+            </button>
+            <span className="text-xl">{props.quantity}</span>
+            <button
+              type="button"
+              onClick={() =>
+                props.handleQuantityChange(props.name, props.quantity - 1)
+              }
+              className="text-xl"
+              disabled={props.quantity === 0}
+            >
+              -
+            </button>
           </div>
         </fetcher.Form>
-      </main>
+      </div>
     </div>
   );
 }

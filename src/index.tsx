@@ -1,9 +1,10 @@
+import { CircleAlert } from "lucide-react";
 import { data, redirect, useFetcher } from "react-router";
 import { z } from "zod";
 
 const GasgoOrderSchema = z.object({
-  fullName: z.string().min(1, "To'liq ismingiz bo'lishi shart"),
-  phoneNumber: z.coerce.number().min(1, "Telefon raqamingiz bo'lishi shart"),
+  fullName: z.string().min(8, "To'liq ismingiz bo'lishi shart"),
+  phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
   privacyPolicy: z.literal("on", {
     error: () => ({
       message: "Maxfiylik siyosatiga rozilik bildirishingiz shart",
@@ -41,47 +42,80 @@ export async function indexAction({ request }: { request: Request }) {
 }
 
 export function BottoSheet() {
-  const saved = JSON.parse(localStorage.getItem("orders") || "{}");
   const fetcher = useFetcher();
   const errors = fetcher.data?.errors;
+
+  function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>) {
+    let raw = e.currentTarget.value;
+
+    let digits = "";
+    for (let i = 0; i < raw.length; i++) {
+      const ch = raw[i];
+      if (ch >= "0" && ch <= "9") {
+        digits += ch;
+      }
+    }
+    let formatted = "";
+    if (digits.length > 0) formatted += digits.substring(0, 2);
+    if (digits.length > 2) formatted += " " + digits.substring(2, 5);
+    if (digits.length > 5) formatted += " " + digits.substring(5, 7);
+    if (digits.length > 7) formatted += " " + digits.substring(7, 9);
+
+    e.currentTarget.value = formatted.trim();
+  }
   return (
-    <section className="flex flex-col items-center justify-center gap-8 pt-8">
-      <header className="pb-8">
-        <img src="/Logo_GASGO.png" alt="" width={48} height={40} />
+    <section className="flex min-h-screen flex-col items-center justify-between gap-16 p-16">
+      <header className="pb-16 pt-[36px]">
+        <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
-      <main>
-        <fetcher.Form method="POST" className="min-w-[320px]">
-          <div className="flex w-full flex-col gap-8 pb-8">
+      <main className="flex items-center justify-center">
+        <fetcher.Form method="POST" className="min-w-[320px]" id="gasgo-order">
+          <div className="flex w-full flex-col justify-center gap-16 pb-16">
             <div>
               <input
                 type="text"
-                defaultValue={saved.fullName || ""}
-                placeholder="To'liq ismingiz"
+                placeholder="Ism Sharifingiz"
                 name="fullName"
-                className="outline-solid min-w-[320px] rounded-md px-8 py-1 shadow outline outline-zinc-300/10"
+                className="outline-solid min-w-[320px] rounded-md bg-zinc-300/10 p-8 px-16 text-white shadow ring-brand-green focus:ring"
               />
             </div>
             {errors?.fullName && (
-              <div className="text-red-500">{errors.fullName}</div>
+              <div className="flex gap-8 text-red-500">
+                <span>
+                  <CircleAlert />
+                </span>
+                <span> {errors.fullName}</span>
+              </div>
             )}
 
-            <div className="text-base">
-              <span className="pr-8">+998</span>
+            <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white shadow ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
+              <span className="pr-16 text-white">+998</span>
               <input
-                type="number"
-                defaultValue={saved.phoneNumber || ""}
-                placeholder="Telefon raqamingiz"
+                type="tel"
+                placeholder="00 000 00 00"
                 name="phoneNumber"
-                className="outline-solid min-w-[264px] rounded-md px-8 py-1 shadow outline outline-zinc-300/10"
+                onInput={(e: React.FormEvent<HTMLInputElement>) =>
+                  handlePhoneNumber(e)
+                }
+                className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 p-8 px-16 text-white focus:outline-none"
               />
             </div>
             {errors?.phoneNumber && (
-              <div className="text-red-500">{errors.phoneNumber}</div>
+              <div className="flex gap-8 text-red-500">
+                <span>
+                  <CircleAlert />
+                </span>
+                <span> {errors.phoneNumber}</span>
+              </div>
             )}
 
-            <div className="flex items-center gap-8">
-              <input type="checkbox" name="privacyPolicy" />
-              <label htmlFor="">Maxfiylik siyosati</label>
+            <div className="flex items-center gap-16">
+              <input
+                type="checkbox"
+                name="privacyPolicy"
+                className="h-10 w-10 scale-150 appearance-none rounded bg-zinc-700 checked:border-transparent checked:bg-brand-green"
+              />
+              <label className="text-white">Maxfiylik siyosati</label>
             </div>
             {errors?.privacyPolicy && (
               <div className="flex-wrap text-red-500">
@@ -89,14 +123,19 @@ export function BottoSheet() {
               </div>
             )}
           </div>
-          <button
-            type="submit"
-            className="rounded-2xl bg-brand-green px-16 py-4 text-white shadow"
-          >
-            Buyurtmani boshlash
-          </button>
+          <div className="flex justify-center pt-8"></div>
         </fetcher.Form>
       </main>
+      <footer className="w-full pb-16">
+        <button
+          type="submit"
+          form="gasgo-order"
+          tabIndex={0}
+          className="w-full rounded-md bg-brand-green/10 px-16 py-4 text-white outline outline-[0.9px] outline-brand-green drop-shadow-md"
+        >
+          Buyurtmani boshlash
+        </button>
+      </footer>
     </section>
   );
 }

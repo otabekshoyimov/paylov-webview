@@ -51,10 +51,10 @@ export function LocationPage() {
   return (
     <>
       <div className="flex h-screen w-full flex-col">
-        <div className="p-8 pb-8">
+        <div className="p-16">
           <BackButton link={"/"} />
         </div>
-        <div className="flex-1 pb-8">
+        <div className="flex-1">
           {position && (
             <MapContainer
               center={position}
@@ -79,8 +79,8 @@ export function LocationPage() {
           )}
         </div>
 
-        <div className="p-8 pb-16">
-          <fetcher.Form method="POST">
+        <div className="flex justify-center p-16">
+          <fetcher.Form method="POST" className="w-full">
             <input
               type="hidden"
               name="location"
@@ -88,9 +88,9 @@ export function LocationPage() {
             />
             <button
               type="submit"
-              className="py-3 w-full rounded-2xl bg-brand-green px-6 font-medium text-white shadow"
+              className="w-full rounded-2xl bg-brand-green/10 px-16 py-4 font-medium text-white shadow outline outline-[0.9px] outline-brand-green"
             >
-              Send Location
+              Manzilni yuborish
             </button>
           </fetcher.Form>
         </div>
