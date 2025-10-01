@@ -1,4 +1,5 @@
 import { CircleAlert } from "lucide-react";
+import type { ReactNode } from "react";
 import { data, redirect, useFetcher } from "react-router";
 import { z } from "zod";
 
@@ -7,7 +8,7 @@ const GasgoOrderSchema = z.object({
   phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
   privacyPolicy: z.literal("on", {
     error: () => ({
-      message: "Maxfiylik siyosatiga rozilik bildirishingiz shart",
+      message: "Foydalanish shartlariga rozilik bildiring",
     }),
   }),
 });
@@ -80,12 +81,9 @@ export function BottoSheet() {
               />
             </div>
             {errors?.fullName && (
-              <div className="flex gap-8 text-red-500">
-                <span>
-                  <CircleAlert />
-                </span>
-                <span> {errors.fullName}</span>
-              </div>
+              <ValidationError>
+                <span>{errors.fullName}</span>
+              </ValidationError>
             )}
 
             <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white shadow ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
@@ -101,29 +99,27 @@ export function BottoSheet() {
               />
             </div>
             {errors?.phoneNumber && (
-              <div className="flex gap-8 text-red-500">
-                <span>
-                  <CircleAlert />
-                </span>
-                <span> {errors.phoneNumber}</span>
-              </div>
+              <ValidationError>
+                <span>{errors.phoneNumber}</span>
+              </ValidationError>
             )}
 
-            <div className="flex items-center gap-16">
-              <input
-                type="checkbox"
-                name="privacyPolicy"
-                className="h-10 w-10 scale-150 appearance-none rounded bg-zinc-700 checked:border-transparent checked:bg-brand-green"
-              />
-              <label className="text-white">Maxfiylik siyosati</label>
-            </div>
-            {errors?.privacyPolicy && (
-              <div className="flex-wrap text-red-500">
-                {errors.privacyPolicy}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-16">
+                <input
+                  type="checkbox"
+                  name="privacyPolicy"
+                  className="h-10 w-10 scale-150 appearance-none rounded bg-zinc-700 checked:border-transparent checked:bg-brand-green"
+                />
+                <label className="text-white">Foydalanish shartlari</label>
               </div>
-            )}
+              {errors?.privacyPolicy && (
+                <ValidationError>
+                  <span>{errors.privacyPolicy}</span>
+                </ValidationError>
+              )}
+            </div>
           </div>
-          <div className="flex justify-center pt-8"></div>
         </fetcher.Form>
       </main>
       <footer className="w-full pb-16">
@@ -137,5 +133,16 @@ export function BottoSheet() {
         </button>
       </footer>
     </section>
+  );
+}
+
+function ValidationError(props: { children: ReactNode }) {
+  return (
+    <div className="flex w-full items-center gap-8 text-red-500">
+      <span>
+        <CircleAlert size={16} />
+      </span>
+      {props.children}
+    </div>
   );
 }
