@@ -29,7 +29,7 @@ export function ShopPage() {
 
   const fetcher = useFetcher();
   return (
-    <section className="flex min-h-screen flex-col p-16 text-white">
+    <section className="flex min-h-[100dvh] flex-col p-16 text-white">
       <header className="pb-16">
         <BackButton link={"/location"} />
       </header>
