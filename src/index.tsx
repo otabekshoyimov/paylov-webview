@@ -6,11 +6,6 @@ import { z } from "zod";
 const GasgoOrderSchema = z.object({
   fullName: z.string().min(8, "To'liq ismingiz bo'lishi shart"),
   phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
-  privacyPolicy: z.literal("on", {
-    error: () => ({
-      message: "Foydalanish shartlariga rozilik bildiring",
-    }),
-  }),
 });
 
 export async function indexAction({ request }: { request: Request }) {
@@ -22,7 +17,6 @@ export async function indexAction({ request }: { request: Request }) {
   const validatedForm = GasgoOrderSchema.safeParse({
     fullName: formData.get("fullName"),
     phoneNumber: formData.get("phoneNumber"),
-    privacyPolicy: formData.get("privacyPolicy"),
   });
 
   if (!validatedForm.success) {
@@ -103,26 +97,17 @@ export function BottoSheet() {
                 <span>{errors.phoneNumber}</span>
               </ValidationError>
             )}
-
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-16">
-                <input
-                  type="checkbox"
-                  name="privacyPolicy"
-                  className="h-10 w-10 scale-150 appearance-none rounded bg-zinc-700 checked:border-transparent checked:bg-brand-green"
-                />
-                <label className="text-white">Foydalanish shartlari</label>
-              </div>
-              {errors?.privacyPolicy && (
-                <ValidationError>
-                  <span>{errors.privacyPolicy}</span>
-                </ValidationError>
-              )}
-            </div>
           </div>
         </fetcher.Form>
       </main>
-      <footer className="w-full pb-16">
+      <footer className="flex w-full flex-col gap-8 pb-16">
+        <div className="mx-auto max-w-[300px] text-center text-sm text-zinc-200">
+          Davom etish orqali siz{" "}
+          <span className="font-medium text-white">
+            Foydalanish shartlariga{" "}
+          </span>{" "}
+          rozilik bildirasiz
+        </div>
         <button
           type="submit"
           form="gasgo-order"
