@@ -4,7 +4,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
-import { redirect, useFetcher } from "react-router";
+import { Form, redirect } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 
 const DefaultIcon = L.icon({
@@ -30,12 +30,11 @@ export async function LocationAction({ request }: { request: Request }) {
   const formData = await request.formData();
   const rawData = Object.fromEntries(formData.entries());
   console.log("formdata: ", rawData);
-  return redirect(`/shop`);
+  return redirect("/shop");
 }
 
 export function LocationPage() {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const fetcher = useFetcher();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -80,7 +79,7 @@ export function LocationPage() {
         </div>
 
         <div className="flex justify-center p-16">
-          <fetcher.Form method="POST" className="w-full">
+          <Form method="POST" className="w-full" viewTransition>
             <input
               type="hidden"
               name="location"
@@ -92,7 +91,7 @@ export function LocationPage() {
             >
               Manzilni yuborish
             </button>
-          </fetcher.Form>
+          </Form>
         </div>
       </div>
     </>
