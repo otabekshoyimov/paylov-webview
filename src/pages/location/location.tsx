@@ -49,7 +49,7 @@ export function LocationPage() {
 
   return (
     <>
-      <div className="flex min-h-[100dvh] w-full flex-col">
+      <div className="flex min-h-[100dvh] w-full flex-col pb-16">
         <div className="p-16">
           <BackButton link={"/"} />
         </div>

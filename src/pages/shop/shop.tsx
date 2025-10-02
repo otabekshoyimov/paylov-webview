@@ -1,7 +1,7 @@
 import { useFetcher } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 import { useState } from "react";
-
+import { motion, AnimatePresence } from "motion/react";
 export function ShopPage() {
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({
     "Ai 95": 0,
@@ -44,9 +44,25 @@ export function ShopPage() {
           />
         ))}
       </main>
-      <footer className="mt-auto px-8 pb-8">
+      <footer className="mt-auto px-8 pb-16">
         <fetcher.Form className="flex items-center justify-between">
-          <span>Jami: {getTotalQuantity()} so'm</span>
+          <span className="flex items-baseline gap-8">
+            So'm:
+            <span className="inline-block w-[8ch] overflow-hidden text-right">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={getTotalQuantity()}
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-100%", opacity: 0 }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="block w-[2ch] tabular-nums leading-none"
+                >
+                  {getTotalQuantity()}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </span>
           <button className="rounded-md bg-brand-green/10 px-24 py-10 text-white shadow outline outline-[0.9px] outline-brand-green drop-shadow-md">
             To'lovni tasdiqlash
           </button>
@@ -66,12 +82,12 @@ function GasgoOrderItem(props: {
 
   return (
     <div className="flex w-full items-center gap-16">
-      <header className="min-w-fit justify-center text-center text-lg">
+      <header className="min-w-fit justify-center text-center">
         <span>{props.name}</span>
       </header>
 
       <div className="flex w-full items-center justify-between gap-8">
-        <span className="text-center">{`${props.price} so'm`}</span>
+        <span className="text-center text-zinc-300">{`${props.price} so'm`}</span>
         <fetcher.Form>
           <div className="flex items-center justify-center gap-16">
             <button
@@ -83,9 +99,19 @@ function GasgoOrderItem(props: {
             >
               +
             </button>
-            <span className="w-[2ch] text-center text-xl tabular-nums">
-              {props.quantity}
-            </span>
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.span
+                key={props.quantity}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+                className="inline-block w-[2ch] text-center text-lg tabular-nums"
+              >
+                {props.quantity}
+              </motion.span>
+            </AnimatePresence>
+
             <button
               type="button"
               onClick={() =>
