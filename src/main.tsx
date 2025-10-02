@@ -7,7 +7,7 @@ import {
 } from "react-router";
 import "./index.css";
 import { Root } from "./root.tsx";
-import { BottoSheet, indexAction } from "./index.tsx";
+import { IndexPage, indexAction } from "./pages/index/index.tsx";
 import { LocationAction, LocationPage } from "./pages/location/location.tsx";
 import { ShopPage } from "./pages/shop/shop.tsx";
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <BottoSheet />,
+        element: <IndexPage />,
         action: indexAction,
       },
       {

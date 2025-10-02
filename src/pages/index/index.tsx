@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 import type { ReactNode } from "react";
-import { data, redirect, useFetcher } from "react-router";
+import { data, Form, redirect, useFetcher } from "react-router";
 import { z } from "zod";
 
 const GasgoOrderSchema = z.object({
@@ -30,13 +30,10 @@ export async function indexAction({ request }: { request: Request }) {
     });
     return data({ errors }, { status: 400 });
   }
-
-  localStorage.setItem("orders", JSON.stringify(validatedForm));
-
   return redirect(`/location`);
 }
 
-export function BottoSheet() {
+export function IndexPage() {
   const fetcher = useFetcher();
   const errors = fetcher.data?.errors;
 
@@ -64,7 +61,12 @@ export function BottoSheet() {
         <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
       <main className="flex items-center justify-center">
-        <fetcher.Form method="POST" className="min-w-[320px]" id="gasgo-order">
+        <Form
+          method="POST"
+          className="min-w-[320px]"
+          id="gasgo-order"
+          viewTransition
+        >
           <div className="flex w-full flex-col justify-center gap-16 pb-16">
             <div>
               <input
@@ -98,7 +100,7 @@ export function BottoSheet() {
               </ValidationError>
             )}
           </div>
-        </fetcher.Form>
+        </Form>
       </main>
       <footer className="flex w-full flex-col gap-16 pb-16">
         <div className="mx-auto max-w-[260px] text-center text-xs text-zinc-200">
