@@ -53,7 +53,7 @@ export function LocationPage() {
         <div className="p-16">
           <BackButton link={"/"} />
         </div>
-        <div className="flex-1">
+        <div className="flex-1" style={{ height: "calc(100dvh - 160px)" }}>
           {position && (
             <MapContainer
               center={position}
