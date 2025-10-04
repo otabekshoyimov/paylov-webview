@@ -30,8 +30,13 @@ export function ShopPage() {
   const fetcher = useFetcher();
   return (
     <section className="flex min-h-[100dvh] flex-col p-16 text-white">
-      <header className="pb-16">
+      <div className="pb-16">
         <BackButton link={"/location"} />
+      </div>
+      <header className="flex justify-between px-8 pb-8 text-zinc-200">
+        <span>Benzin turi</span>
+        <span className="pr-[58px]">Narx</span>
+        <span className="pr-24">Litr</span>
       </header>
       <main className="flex flex-col gap-16 px-8">
         {items.map((item) => (
@@ -81,12 +86,9 @@ function GasgoOrderItem(props: {
   const fetcher = useFetcher();
 
   return (
-    <div className="flex w-full items-center gap-16">
-      <header className="min-w-fit justify-center text-center">
-        <span>{props.name}</span>
-      </header>
-
+    <div className="">
       <div className="flex w-full items-center justify-between gap-8">
+        <span>{props.name}</span>
         <span className="text-center text-zinc-300">{`${props.price} so'm`}</span>
         <fetcher.Form>
           <div className="flex items-center justify-center gap-16">

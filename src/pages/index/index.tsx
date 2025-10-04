@@ -71,7 +71,7 @@ export function IndexPage() {
             <div>
               <input
                 type="text"
-                placeholder="Ism Sharifingiz"
+                placeholder="Ism Familya"
                 name="fullName"
                 className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
@@ -86,7 +86,7 @@ export function IndexPage() {
               <span className="pr-16 text-white">+998</span>
               <input
                 type="tel"
-                placeholder="00 000 00 00"
+                placeholder="Telefon raqam"
                 name="phoneNumber"
                 onChange={(e: React.FormEvent<HTMLInputElement>) =>
                   handlePhoneNumber(e)
