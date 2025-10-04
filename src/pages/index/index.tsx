@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 import type { ReactNode } from "react";
-import { data, Form, redirect, useFetcher } from "react-router";
+import { data, Form, redirect, useActionData } from "react-router";
 import { z } from "zod";
 
 const GasgoOrderSchema = z.object({
@@ -34,8 +34,8 @@ export async function indexAction({ request }: { request: Request }) {
 }
 
 export function IndexPage() {
-  const fetcher = useFetcher();
-  const errors = fetcher.data?.errors;
+  const actionData = useActionData();
+  const errors = actionData?.errors;
 
   function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>) {
     let raw = e.currentTarget.value;
