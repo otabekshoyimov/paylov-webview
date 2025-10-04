@@ -68,37 +68,43 @@ export function IndexPage() {
           viewTransition
         >
           <div className="flex w-full flex-col justify-center gap-16 pb-16">
-            <div>
+            <label className="flex flex-col gap-8">
+              <span className="text-white"> Ism Familya</span>
+
               <input
                 type="text"
                 placeholder="Ism Familya"
                 name="fullName"
                 className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
-            </div>
-            {errors?.fullName && (
-              <ValidationError>
-                <span>{errors.fullName}</span>
-              </ValidationError>
-            )}
+              {errors?.fullName && (
+                <ValidationError>
+                  <span>{errors.fullName}</span>
+                </ValidationError>
+              )}
+            </label>
 
-            <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
-              <span className="pr-16 text-white">+998</span>
-              <input
-                type="tel"
-                placeholder="Telefon raqam"
-                name="phoneNumber"
-                onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                  handlePhoneNumber(e)
-                }
-                className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
-              />
-            </div>
-            {errors?.phoneNumber && (
-              <ValidationError>
-                <span>{errors.phoneNumber}</span>
-              </ValidationError>
-            )}
+            <label className="flex flex-col gap-8">
+              <span className="text-white"> Telefon raqam</span>
+
+              <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
+                <span className="pr-16 text-white">+998</span>
+                <input
+                  type="tel"
+                  placeholder="00 000 00 00"
+                  name="phoneNumber"
+                  onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                    handlePhoneNumber(e)
+                  }
+                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
+                />
+              </div>
+              {errors?.phoneNumber && (
+                <ValidationError>
+                  <span>{errors.phoneNumber}</span>
+                </ValidationError>
+              )}
+            </label>
           </div>
         </Form>
       </main>
