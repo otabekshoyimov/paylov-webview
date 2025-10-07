@@ -7,9 +7,9 @@ import {
 } from "react-router";
 import "./index.css";
 import { Root } from "./root.tsx";
-import { IndexPage, indexAction } from "./pages/index/index.tsx";
+import { IndexPage, indexAction, indexLoader } from "./pages/index/index.tsx";
 import { LocationAction, LocationPage } from "./pages/location/location.tsx";
-import { ShopPage } from "./pages/shop/shop.tsx";
+import { ShopPage, shopPageLoader } from "./pages/shop/shop.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
         index: true,
         element: <IndexPage />,
         action: indexAction,
+        loader: indexLoader,
       },
       {
         path: "/location",
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       {
         path: "/shop",
         element: <ShopPage />,
+        loader: shopPageLoader,
       },
     ],
   },

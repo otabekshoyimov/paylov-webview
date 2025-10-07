@@ -1,26 +1,87 @@
-import { useFetcher } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-export function ShopPage() {
-  const [quantities, setQuantities] = useState<{ [key: string]: number }>({
-    "Ai 95": 0,
-    "Ai 92": 0,
-  });
-  const items = [
-    { name: "Ai 95", price: 11000 },
-    { name: "Ai 92", price: 10000 },
-  ];
+import { API_TOKEN, BASE_URL, query } from "../index";
 
-  function getTotalQuantity() {
+type GasRule = {
+  deliveryPrice: number;
+  freeDeliveryQuantity: number;
+};
+
+type GasItem = {
+  id: string;
+  name: string;
+  price: number;
+};
+
+type GasGo = {
+  gasRule: GasRule;
+  gasTypes: GasItem[];
+};
+
+type GasgoResponse = {
+  data: {
+    gasGo: GasGo;
+  };
+};
+
+export async function shopPageLoader(): Promise<GasGo> {
+  try {
+    const res = await fetch(`${BASE_URL}/graphql/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: API_TOKEN,
+      },
+      body: JSON.stringify({ query }),
+    });
+
+    if (!res.ok) {
+      throw new Response("Failed to fetch data", { status: res.status });
+    }
+    const json: GasgoResponse = await res.json();
+
+    console.log("gasgo", json.data.gasGo);
+    return json.data.gasGo;
+  } catch (error) {
+    console.error("err", error, { cause: error });
+    throw new Error("Error");
+  }
+}
+type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
+
+export function ShopPage() {
+  const gasGoAsync = useLoaderData<ShopPageLoaderData>();
+  console.log("loaderData", gasGoAsync);
+
+  console.log(
+    "ob",
+    Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
+  );
+  const [quantities, setQuantities] = useState<{ [key: string]: number }>(
+    Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
+  );
+
+  function convertTiyinToSums(gasGoAsync: GasGo) {
+    return gasGoAsync.gasTypes.map((item) => ({
+      ...item,
+      price: item.price / 100,
+    }));
+  }
+  console.log("tiyin", convertTiyinToSums(gasGoAsync));
+
+  const convertedGasTypes = convertTiyinToSums(gasGoAsync);
+
+  function getTotalQuantity(): number {
     let total = 0;
-    for (const item of items) {
+    for (const item of convertedGasTypes) {
       total += quantities[item.name] * item.price;
     }
     return total;
   }
 
-  const handleQuantityChange = (header: string, newQuantity: number) => {
+  const handleQuantityChange = (header: string, newQuantity: number): void => {
     setQuantities((prev) => ({
       ...prev,
       [header]: newQuantity,
@@ -29,7 +90,7 @@ export function ShopPage() {
 
   const fetcher = useFetcher();
   return (
-    <section className="flex min-h-[100dvh] flex-col p-16 text-white">
+    <section className="flex min-h-[100svh] flex-col p-16 text-white">
       <div className="pb-16">
         <BackButton link={"/location"} />
       </div>
@@ -39,7 +100,7 @@ export function ShopPage() {
         <span className="pr-24">Litr</span>
       </header>
       <main className="flex flex-col gap-16 px-8">
-        {items.map((item) => (
+        {convertedGasTypes.map((item) => (
           <GasgoOrderItem
             key={item.name}
             name={item.name}
@@ -68,7 +129,7 @@ export function ShopPage() {
               </AnimatePresence>
             </span>
           </span>
-          <button className="rounded-md bg-brand-green/10 px-24 py-10 text-white shadow outline outline-[0.9px] outline-brand-green drop-shadow-md">
+          <button className="rounded-md bg-white px-24 py-10 text-black">
             To'lovni tasdiqlash
           </button>
         </fetcher.Form>
@@ -95,11 +156,12 @@ function GasgoOrderItem(props: {
             <button
               type="button"
               onClick={() =>
-                props.handleQuantityChange(props.name, props.quantity + 1)
+                props.handleQuantityChange(props.name, props.quantity - 1)
               }
               className="text-2xl"
+              disabled={props.quantity === 0}
             >
-              +
+              -
             </button>
             <AnimatePresence initial={false} mode="popLayout">
               <motion.span
@@ -117,12 +179,11 @@ function GasgoOrderItem(props: {
             <button
               type="button"
               onClick={() =>
-                props.handleQuantityChange(props.name, props.quantity - 1)
+                props.handleQuantityChange(props.name, props.quantity + 1)
               }
               className="text-2xl"
-              disabled={props.quantity === 0}
             >
-              -
+              +
             </button>
           </div>
         </fetcher.Form>
