@@ -111,24 +111,23 @@ export function ShopPage() {
         ))}
       </main>
       <footer className="mt-auto px-8 pb-16">
-        <fetcher.Form className="flex items-center justify-between">
-          <span className="flex items-baseline gap-8">
-            So'm:
-            <span className="inline-block w-[8ch] overflow-hidden text-right">
-              <AnimatePresence initial={false} mode="popLayout">
-                <motion.span
-                  key={getTotalQuantity()}
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  exit={{ y: "-100%", opacity: 0 }}
-                  transition={{ duration: 0.25, ease: "easeInOut" }}
-                  className="block w-[2ch] tabular-nums leading-none"
-                >
-                  {getTotalQuantity()}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-          </span>
+        <fetcher.Form className="flex flex-col justify-between gap-16">
+          <div className="flex items-center gap-8">
+            <span> Jami: </span>
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.span
+                key={getTotalQuantity()}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+                className="block tabular-nums leading-none"
+              >
+                {`${getTotalQuantity()} `}
+              </motion.span>
+            </AnimatePresence>
+            <span>so'm</span>
+          </div>
           <button className="rounded-md bg-white px-24 py-10 text-black">
             To'lovni tasdiqlash
           </button>
