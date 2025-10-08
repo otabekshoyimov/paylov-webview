@@ -64,11 +64,11 @@ export function LocationPage() {
 
   return (
     <>
-      <div className="flex min-h-[100vh] w-full flex-col pb-16">
+      <div className="flex min-h-[100svh] w-full flex-col pb-16">
         <div className="p-16">
           <BackButton link={"/"} />
         </div>
-        <div className="" style={{ height: "calc(100vh - 160px)" }}>
+        <div className="" style={{ height: "calc(100svh - 160px)" }}>
           {position && (
             <MapContainer
               center={position}
@@ -76,6 +76,7 @@ export function LocationPage() {
               style={{ height: "100%", width: "100%" }}
             >
               <TileLayer
+                // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
