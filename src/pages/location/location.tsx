@@ -3,9 +3,24 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import { Form, redirect } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
+
+const googleMarker = new L.Icon({
+  iconUrl:
+    "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png",
+  shadowUrl: markerShadow,
+  iconSize: [27, 43],
+  iconAnchor: [13, 43],
+  popupAnchor: [0, -40],
+});
 
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -49,11 +64,11 @@ export function LocationPage() {
 
   return (
     <>
-      <div className="flex min-h-[100dvh] w-full flex-col pb-16">
+      <div className="flex min-h-[100vh] w-full flex-col pb-16">
         <div className="p-16">
           <BackButton link={"/"} />
         </div>
-        <div className="flex-1" style={{ height: "calc(100dvh - 160px)" }}>
+        <div className="" style={{ height: "calc(100vh - 160px)" }}>
           {position && (
             <MapContainer
               center={position}
@@ -62,11 +77,20 @@ export function LocationPage() {
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
+                attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
-              <Marker position={position} />
+              <Marker position={position} icon={googleMarker} />
               <LocationPicker
                 onSelect={(lat, lng) => {
+                  setPosition([lat, lng]);
+                  localStorage.setItem(
+                    "userLocation",
+                    JSON.stringify({ lat, lng }),
+                  );
+                }}
+              />
+              <LocateButton
+                onLocate={(lat, lng) => {
                   setPosition([lat, lng]);
                   localStorage.setItem(
                     "userLocation",
@@ -95,5 +119,38 @@ export function LocationPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function LocateButton({
+  onLocate,
+}: {
+  onLocate: (lat: number, lng: number) => void;
+}) {
+  const map = useMap();
+
+  const handleClick = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        map.flyTo([lat, lng], 15, { duration: 1.5 });
+        onLocate(lat, lng);
+      },
+      (err) => {
+        console.error("Location access denied:", err);
+        alert("Could not get your location");
+      },
+    );
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className="absolute bottom-24 right-24 z-[1000] rounded-full bg-white p-10 shadow-md transition hover:scale-105"
+      style={{ border: "1px solid rgba(0,0,0,0.1)" }}
+    >
+      📍
+    </button>
   );
 }
