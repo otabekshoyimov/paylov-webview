@@ -1,5 +1,4 @@
 import L from "leaflet";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
@@ -13,7 +12,7 @@ import {
 import { Form, redirect } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 
-const googleMarker = new L.Icon({
+const selectedLocationIcon = new L.Icon({
   iconUrl:
     "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2_hdpi.png",
   shadowUrl: markerShadow,
@@ -22,11 +21,12 @@ const googleMarker = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-const DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+const userCurrentLocationIcon = L.divIcon({
+  className: "pulsing-marker",
+  html: `<div class="pulse"></div><div class="dot"></div>`,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
 });
-L.Marker.prototype.options.icon = DefaultIcon;
 
 function LocationPicker({
   onSelect,
@@ -49,15 +49,21 @@ export async function LocationAction({ request }: { request: Request }) {
 }
 
 export function LocationPage() {
-  const [position, setPosition] = useState<[number, number] | null>(null);
+  const [userPosition, setUserPosition] = useState<[number, number] | null>(
+    null,
+  );
+  const [selectedPosition, setSelectedPosition] = useState<
+    [number, number] | null
+  >(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setPosition([pos.coords.latitude, pos.coords.longitude]);
+        setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+        setSelectedPosition([pos.coords.latitude, pos.coords.longitude]);
       },
       () => {
-        setPosition([41.2995, 69.2401]);
+        setUserPosition([41.2995, 69.2401]);
       },
     );
   }, []);
@@ -69,9 +75,9 @@ export function LocationPage() {
           <BackButton link={"/"} />
         </div>
         <div className="" style={{ height: "calc(100svh - 160px)" }}>
-          {position && (
+          {userPosition && (
             <MapContainer
-              center={position}
+              center={userPosition}
               zoom={15}
               style={{ height: "100%", width: "100%" }}
             >
@@ -80,10 +86,19 @@ export function LocationPage() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
               />
-              <Marker position={position} icon={googleMarker} />
+
+              <Marker position={userPosition} icon={userCurrentLocationIcon} />
+
+              {selectedPosition && (
+                <Marker
+                  position={selectedPosition}
+                  icon={selectedLocationIcon}
+                />
+              )}
+
               <LocationPicker
                 onSelect={(lat, lng) => {
-                  setPosition([lat, lng]);
+                  setSelectedPosition([lat, lng]);
                   localStorage.setItem(
                     "userLocation",
                     JSON.stringify({ lat, lng }),
@@ -92,7 +107,8 @@ export function LocationPage() {
               />
               <LocateButton
                 onLocate={(lat, lng) => {
-                  setPosition([lat, lng]);
+                  setUserPosition([lat, lng]);
+                  setSelectedPosition([lat, lng]);
                   localStorage.setItem(
                     "userLocation",
                     JSON.stringify({ lat, lng }),
@@ -108,7 +124,8 @@ export function LocationPage() {
             <input
               type="hidden"
               name="location"
-              value={JSON.stringify(position)}
+              disabled={!selectedPosition}
+              value={JSON.stringify(selectedPosition)}
             />
             <button
               type="submit"
@@ -140,7 +157,6 @@ function LocateButton({
       },
       (err) => {
         console.error("Location access denied:", err);
-        alert("Could not get your location");
       },
     );
   };
