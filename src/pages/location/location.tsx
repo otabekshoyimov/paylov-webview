@@ -70,7 +70,7 @@ export function LocationPage() {
 
   return (
     <>
-      <div className="flex min-h-[100svh] w-full flex-col pb-16">
+      <div className="flex h-[100svh] w-full flex-col">
         <div className="p-16">
           <BackButton link={"/"} />
         </div>
@@ -79,7 +79,7 @@ export function LocationPage() {
             <MapContainer
               center={userPosition}
               zoom={15}
-              style={{ height: "100%", width: "100%" }}
+              className="h-full w-full"
             >
               <TileLayer
                 // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -119,7 +119,7 @@ export function LocationPage() {
           )}
         </div>
 
-        <div className="flex justify-center p-16">
+        <div className="flex justify-center p-16 pt-[24px]">
           <Form method="POST" className="w-full" viewTransition>
             <input
               type="hidden"

@@ -4,7 +4,7 @@ import { data, Form, redirect, useActionData } from "react-router";
 import { z } from "zod";
 
 const GasgoOrderSchema = z.object({
-  fullName: z.string().min(8, "To'liq ismingiz bo'lishi shart"),
+  fullName: z.string().min(4, "Ismingiz bo'lishi shart"),
   phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
 });
 
@@ -105,11 +105,11 @@ export function IndexPage() {
         >
           <div className="flex w-full flex-col justify-center gap-16 pb-16">
             <label className="flex flex-col gap-8">
-              <span className="text-white"> Ism Familya</span>
+              <span className="text-white">Ism</span>
 
               <input
                 type="text"
-                placeholder="Ism Familya"
+                placeholder="Ism"
                 name="fullName"
                 className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
