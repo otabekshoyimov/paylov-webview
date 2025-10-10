@@ -164,8 +164,7 @@ function LocateButton({
   return (
     <button
       onClick={handleClick}
-      className="absolute bottom-24 right-24 z-[1000] rounded-full bg-white p-10 shadow-md transition hover:scale-105"
-      style={{ border: "1px solid rgba(0,0,0,0.1)" }}
+      className="absolute bottom-24 right-24 z-[1000] rounded-full bg-white p-16 shadow-md transition hover:scale-105"
     >
       📍
     </button>
