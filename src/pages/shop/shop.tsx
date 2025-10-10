@@ -1,6 +1,6 @@
 import { useFetcher, useLoaderData } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { API_TOKEN, BASE_URL, query } from "../index";
 
@@ -63,21 +63,46 @@ export function ShopPage() {
     Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
   );
 
-  function convertTiyinToSums(gasGoAsync: GasGo) {
+  console.log("quantit", quantities);
+
+  const [deliveryPrice, setDeliveryPrice] = useState(
+    gasGoAsync.gasRule.deliveryPrice / 100,
+  );
+  console.log("😂", deliveryPrice);
+
+  function getTotalLitr() {
+    let total = 0;
+    Object.entries(quantities).forEach(([key, val]) => {
+      total = total + val;
+    });
+    return total;
+  }
+  console.log("tot litr", getTotalLitr());
+
+  useEffect(() => {
+    if (getTotalLitr() > 30) {
+      setDeliveryPrice(0);
+    } else {
+      setDeliveryPrice(gasGoAsync.gasRule.deliveryPrice / 100);
+    }
+  }, [quantities, deliveryPrice]);
+
+  function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo) {
     return gasGoAsync.gasTypes.map((item) => ({
       ...item,
       price: item.price / 100,
     }));
   }
-  console.log("tiyin", convertTiyinToSums(gasGoAsync));
+  console.log("tiyin", convertGasgoItemPriceFromTiyinToSums(gasGoAsync));
 
-  const convertedGasTypes = convertTiyinToSums(gasGoAsync);
+  const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
 
   function getTotalQuantity(): number {
     let total = 0;
     for (const item of convertedGasTypes) {
       total += quantities[item.name] * item.price;
     }
+
     return total;
   }
 
@@ -87,6 +112,20 @@ export function ShopPage() {
       [header]: newQuantity,
     }));
   };
+
+  function getFinalTotal(): number {
+    const totalGasCost = getTotalQuantity();
+    const totalLiters = getTotalLitr();
+
+    if (totalLiters === 0) {
+      return 0;
+    }
+    if (totalLiters < 30) {
+      return totalGasCost + deliveryPrice;
+    }
+
+    return totalGasCost;
+  }
 
   const fetcher = useFetcher();
   return (
@@ -112,6 +151,10 @@ export function ShopPage() {
       </main>
       <footer className="mt-auto px-8 pb-16">
         <fetcher.Form className="flex flex-col justify-between gap-16">
+          <div>
+            <span> Yetkazib berish 30 litrgacha: {deliveryPrice} so'm</span>
+            <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
+          </div>
           <div className="flex items-center gap-8">
             <span> Jami: </span>
             <AnimatePresence initial={false} mode="popLayout">
@@ -123,7 +166,7 @@ export function ShopPage() {
                 transition={{ duration: 0.25, ease: "easeInOut" }}
                 className="block tabular-nums leading-none"
               >
-                {`${getTotalQuantity()} `}
+                {`${getFinalTotal()} `}
               </motion.span>
             </AnimatePresence>
             <span>so'm</span>
