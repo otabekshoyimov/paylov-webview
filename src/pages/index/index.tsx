@@ -57,15 +57,10 @@ export async function indexAction({ request }: { request: Request }) {
   });
 
   if (!validatedForm.success) {
-    const errors: Record<string, string> = {};
-    console.log(validatedForm.error.issues);
-    validatedForm.error.issues.forEach((issue) => {
-      const field = issue.path[0];
-      if (field && typeof field === "string") {
-        errors[field] = issue.message;
-      }
-    });
-    return data({ errors }, { status: 400 });
+    return data(
+      { errors: z.flattenError(validatedForm.error) },
+      { status: 400 },
+    );
   }
 
   console.log(
@@ -86,7 +81,8 @@ export async function indexAction({ request }: { request: Request }) {
 
 export function IndexPage() {
   const actionData = useActionData();
-  const errors = actionData?.errors;
+  const errors = actionData?.errors.fieldErrors;
+  console.log("errors", errors);
 
   function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>) {
     let raw = e.currentTarget.value;
