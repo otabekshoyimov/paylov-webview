@@ -90,7 +90,7 @@ export function ShopPage() {
 
   function getTotalLitr() {
     let total = 0;
-    Object.entries(quantities).forEach(([key, val]) => {
+    Object.entries(quantities).forEach(([_, val]) => {
       total = total + val;
     });
     return total;
