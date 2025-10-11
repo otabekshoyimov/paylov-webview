@@ -46,13 +46,14 @@ export async function indexLoader() {
 
 export async function indexAction({ request }: { request: Request }) {
   const formData = await request.formData();
+  console.log("formdata", Object.fromEntries(formData.entries()));
 
-  const rawData = Object.fromEntries(formData.entries());
-  console.log("formdata", rawData);
+  const name = String(formData.get("name")).trim();
+  const phoneNumber = String(formData.get("phoneNumber")).trim();
 
   const validatedForm = GasgoOrderSchema.safeParse({
-    name: formData.get("name"),
-    phoneNumber: formData.get("phoneNumber"),
+    name: name,
+    phoneNumber: phoneNumber,
   });
 
   if (!validatedForm.success) {
