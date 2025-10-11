@@ -4,7 +4,7 @@ import { data, Form, redirect, useActionData } from "react-router";
 import { z } from "zod";
 
 const GasgoOrderSchema = z.object({
-  fullName: z.string().min(4, "Ismingiz bo'lishi shart"),
+  name: z.string().min(4, "Ismingiz bo'lishi shart"),
   phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
 });
 
@@ -51,7 +51,7 @@ export async function indexAction({ request }: { request: Request }) {
   console.log("formdata", rawData);
 
   const validatedForm = GasgoOrderSchema.safeParse({
-    fullName: formData.get("fullName"),
+    name: formData.get("name"),
     phoneNumber: formData.get("phoneNumber"),
   });
 
@@ -66,7 +66,9 @@ export async function indexAction({ request }: { request: Request }) {
     });
     return data({ errors }, { status: 400 });
   }
-  return redirect(`/location`);
+  return redirect(
+    `/location?name=${encodeURIComponent(validatedForm.data.name)}&phoneNumber=${encodeURIComponent(validatedForm.data.phoneNumber)}`,
+  );
 }
 
 export function IndexPage() {
@@ -110,12 +112,12 @@ export function IndexPage() {
               <input
                 type="text"
                 placeholder="Ism"
-                name="fullName"
+                name="name"
                 className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
-              {errors?.fullName && (
+              {errors?.name && (
                 <ValidationError>
-                  <span>{errors.fullName}</span>
+                  <span>{errors.name}</span>
                 </ValidationError>
               )}
             </label>

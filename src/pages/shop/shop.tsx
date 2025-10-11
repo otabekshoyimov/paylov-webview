@@ -51,6 +51,24 @@ export async function shopPageLoader(): Promise<GasGo> {
 }
 type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
 
+export async function shopPageAction({ request }: { request: Request }) {
+  const formData = await request.formData();
+  const quantities = String(formData.get("quantities"));
+  console.log("quan:", JSON.parse(quantities));
+
+  const url = new URL(request.url);
+  const name = url.searchParams.get("name");
+  const phoneNumber = url.searchParams.get("phoneNumber");
+  const location = url.searchParams.get("location");
+
+  console.log("GASGO ORDER DATA ⛽️:", {
+    name: name,
+    phoneNumber: phoneNumber?.split(" ").join(""),
+    location: location,
+    quantities: JSON.parse(quantities),
+  });
+}
+
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
   console.log("loaderData", gasGoAsync);
@@ -150,10 +168,18 @@ export function ShopPage() {
         ))}
       </main>
       <footer className="mt-auto px-8 pb-16">
-        <fetcher.Form className="flex flex-col justify-between gap-16">
+        <fetcher.Form
+          className="flex flex-col justify-between gap-16"
+          method="post"
+        >
           <div>
             <span> Yetkazib berish 30 litrgacha: {deliveryPrice} so'm</span>
             <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
+            <input
+              type="hidden"
+              value={JSON.stringify(quantities)}
+              name="quantities"
+            />
           </div>
           <div className="flex items-center gap-8">
             <span> Jami: </span>
