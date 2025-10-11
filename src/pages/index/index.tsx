@@ -67,8 +67,20 @@ export async function indexAction({ request }: { request: Request }) {
     });
     return data({ errors }, { status: 400 });
   }
+
+  console.log(
+    "pars ☔️",
+    new URLSearchParams({
+      name: validatedForm.data.name,
+      phoneNumber: validatedForm.data.phoneNumber,
+    }).toString(),
+  );
+
   return redirect(
-    `/location?name=${encodeURIComponent(validatedForm.data.name)}&phoneNumber=${encodeURIComponent(validatedForm.data.phoneNumber)}`,
+    `/location?${new URLSearchParams({
+      name: validatedForm.data.name,
+      phoneNumber: validatedForm.data.phoneNumber,
+    })}`,
   );
 }
 

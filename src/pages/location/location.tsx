@@ -45,7 +45,7 @@ export async function LocationAction({ request }: { request: Request }) {
   const formData = await request.formData();
   const rawData = Object.fromEntries(formData.entries());
   console.log("formdata: ", rawData);
-  const location = formData.get("location");
+  const location = String(formData.get("location"));
   console.log("loc 🏟️", location);
   const url = new URL(request.url);
   const name = url.searchParams.get("name") ?? "";
@@ -53,7 +53,11 @@ export async function LocationAction({ request }: { request: Request }) {
   console.log("name and phone:", name, phoneNumber);
 
   return redirect(
-    `/shop?name=${encodeURIComponent(name)}&phoneNumber=${phoneNumber}&location=${location}`,
+    `/shop?${new URLSearchParams({
+      name: name,
+      phoneNumber: phoneNumber,
+      location: location,
+    })}`,
   );
 }
 
