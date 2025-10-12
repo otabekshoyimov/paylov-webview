@@ -2,7 +2,6 @@ import { useFetcher, useLoaderData } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { API_TOKEN, BASE_URL, query } from "../index";
 
 type GasRule = {
   deliveryPrice: number;
@@ -26,28 +25,42 @@ type GasgoResponse = {
   };
 };
 
-export async function shopPageLoader(): Promise<GasGo> {
-  try {
-    const res = await fetch(`${BASE_URL}/graphql/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: API_TOKEN,
-      },
-      body: JSON.stringify({ query }),
-    });
-
-    if (!res.ok) {
-      throw new Response("Failed to fetch data", { status: res.status });
+export const BASE_URL = "https://paylov.uz";
+export const query = `
+  query MyQuery {
+    gasGo {
+      gasTypes {
+        id
+        name
+        price
+      }
+      gasRule {
+        deliveryPrice
+        freeDeliveryQuantity
+      }
     }
-    const json: GasgoResponse = await res.json();
-
-    console.log("gasgo", json.data.gasGo);
-    return json.data.gasGo;
-  } catch (error) {
-    console.error("err", error, { cause: error });
-    throw new Error("Error");
   }
+`;
+
+export const API_TOKEN = "80807e49ac288fea004257f9b16209539a695c49";
+
+export async function shopPageLoader(): Promise<GasGo> {
+  const res = await fetch(`${BASE_URL}/graphql/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: API_TOKEN,
+    },
+    body: JSON.stringify({ query }),
+  });
+
+  if (!res.ok) {
+    throw new Response("Failed to fetch data", { status: res.status });
+  }
+  const json: GasgoResponse = await res.json();
+
+  console.log("gasgo", json.data.gasGo);
+  return json.data.gasGo;
 }
 type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
 

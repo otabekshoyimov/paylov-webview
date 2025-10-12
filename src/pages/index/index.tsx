@@ -8,48 +8,12 @@ const GasgoOrderSchema = z.object({
   phoneNumber: z.string().min(7, "Telefon raqamingiz bo'lishi shart"),
 });
 
-export const BASE_URL = "https://paylov.uz";
-export const query = `
-  query MyQuery {
-    gasGo {
-      gasTypes {
-        id
-        name
-        price
-      }
-      gasRule {
-        deliveryPrice
-        freeDeliveryQuantity
-      }
-    }
-  }
-`;
-
-export const API_TOKEN = "80807e49ac288fea004257f9b16209539a695c49";
-
-export async function indexLoader() {
-  try {
-    const res = await fetch(`${BASE_URL}/graphql/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: API_TOKEN,
-      },
-      body: JSON.stringify({ query }),
-    });
-    const data = await res.json();
-    console.log("data", data);
-  } catch (error) {
-    console.error("err", error, { cause: error });
-  }
-}
-
 export async function indexAction({ request }: { request: Request }) {
   const formData = await request.formData();
   console.log("formdata", Object.fromEntries(formData.entries()));
 
   const name = String(formData.get("name")).trim();
-  const phoneNumber = String(formData.get("phoneNumber")).trim();
+  const phoneNumber = String(formData.get("phoneNumber"));
 
   const validatedForm = GasgoOrderSchema.safeParse({
     name: name,
