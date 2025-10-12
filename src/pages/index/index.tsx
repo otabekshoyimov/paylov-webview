@@ -27,14 +27,6 @@ export async function indexAction({ request }: { request: Request }) {
     );
   }
 
-  console.log(
-    "pars ☔️",
-    new URLSearchParams({
-      name: validatedForm.data.name,
-      phoneNumber: validatedForm.data.phoneNumber,
-    }).toString(),
-  );
-
   return redirect(
     `/location?${new URLSearchParams({
       name: validatedForm.data.name,
@@ -46,7 +38,6 @@ export async function indexAction({ request }: { request: Request }) {
 export function IndexPage() {
   const actionData = useActionData();
   const errors = actionData?.errors.fieldErrors;
-  console.log("errors", errors);
 
   function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>) {
     let raw = e.currentTarget.value;

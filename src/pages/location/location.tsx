@@ -95,7 +95,6 @@ export function LocationPage() {
               className="h-full w-full"
             >
               <TileLayer
-                // url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
               />

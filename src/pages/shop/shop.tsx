@@ -58,8 +58,6 @@ export async function shopPageLoader(): Promise<GasGo> {
     throw new Response("Failed to fetch data", { status: res.status });
   }
   const json: GasgoResponse = await res.json();
-
-  console.log("gasgo", json.data.gasGo);
   return json.data.gasGo;
 }
 type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
@@ -84,22 +82,14 @@ export async function shopPageAction({ request }: { request: Request }) {
 
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
-  console.log("loaderData", gasGoAsync);
 
-  console.log(
-    "ob",
-    Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
-  );
   const [quantities, setQuantities] = useState<{ [key: string]: number }>(
     Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
   );
 
-  console.log("quantit", quantities);
-
   const [deliveryPrice, setDeliveryPrice] = useState(
     gasGoAsync.gasRule.deliveryPrice / 100,
   );
-  console.log("😂", deliveryPrice);
 
   function getTotalLitr() {
     let total = 0;
@@ -108,7 +98,6 @@ export function ShopPage() {
     });
     return total;
   }
-  console.log("tot litr", getTotalLitr());
 
   useEffect(() => {
     if (getTotalLitr() > 30) {
@@ -124,7 +113,6 @@ export function ShopPage() {
       price: item.price / 100,
     }));
   }
-  console.log("tiyin", convertGasgoItemPriceFromTiyinToSums(gasGoAsync));
 
   const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
 
@@ -133,7 +121,6 @@ export function ShopPage() {
     for (const item of convertedGasTypes) {
       total += quantities[item.name] * item.price;
     }
-
     return total;
   }
 
@@ -154,7 +141,6 @@ export function ShopPage() {
     if (totalLiters < 30) {
       return totalGasCost + deliveryPrice;
     }
-
     return totalGasCost;
   }
 
