@@ -186,7 +186,10 @@ export function ShopPage() {
           method="post"
         >
           <div>
-            <span> Yetkazib berish 30 litrgacha: {deliveryPrice} so'm</span>
+            <span>
+              {`Yetkazib berish 30 litrgacha:
+              ${deliveryPrice.toLocaleString("uz-UZ")} so'm`}
+            </span>
             <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
             <input
               type="hidden"
@@ -205,7 +208,7 @@ export function ShopPage() {
                 transition={{ duration: 0.25, ease: "easeInOut" }}
                 className="block tabular-nums leading-none"
               >
-                {`${getFinalTotal()} `}
+                {`${getFinalTotal().toLocaleString("uz-UZ")} `}
               </motion.span>
             </AnimatePresence>
             <span>so'm</span>
@@ -231,7 +234,7 @@ function GasgoOrderItem(props: {
     <div className="">
       <div className="flex w-full items-center justify-between gap-8">
         <span>{props.name}</span>
-        <span className="text-center text-zinc-300">{`${props.price} so'm`}</span>
+        <span className="text-center text-zinc-300">{`${props.price.toLocaleString("uz-UZ")} so'm`}</span>
         <fetcher.Form>
           <div className="flex items-center justify-center gap-16">
             <button
