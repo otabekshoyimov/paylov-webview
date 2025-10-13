@@ -1,7 +1,7 @@
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 import { useFetcher, useLoaderData } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 
 type GasRule = {
   deliveryPrice: number;
