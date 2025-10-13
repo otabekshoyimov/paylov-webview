@@ -39,7 +39,7 @@ export function IndexPage() {
   const actionData = useActionData();
   const errors = actionData?.errors.fieldErrors;
 
-  function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>) {
+  function handlePhoneNumber(e: React.FormEvent<HTMLInputElement>): void {
     let raw = e.currentTarget.value;
 
     let digits = "";

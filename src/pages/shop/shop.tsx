@@ -87,25 +87,16 @@ export function ShopPage() {
     Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
   );
 
-  const [deliveryPrice, setDeliveryPrice] = useState(
-    gasGoAsync.gasRule.deliveryPrice / 100,
-  );
+  const deliveryPrice =
+    getTotalLitr() > 30 ? 0 : gasGoAsync.gasRule.deliveryPrice / 100;
 
-  function getTotalLitr() {
+  function getTotalLitr(): number {
     let total = 0;
     Object.entries(quantities).forEach(([_, val]) => {
       total = total + val;
     });
     return total;
   }
-
-  useEffect(() => {
-    if (getTotalLitr() > 30) {
-      setDeliveryPrice(0);
-    } else {
-      setDeliveryPrice(gasGoAsync.gasRule.deliveryPrice / 100);
-    }
-  }, [quantities, deliveryPrice]);
 
   function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo) {
     return gasGoAsync.gasTypes.map((item) => ({
