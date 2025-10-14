@@ -163,7 +163,7 @@ export function ShopPage() {
               key={gasItem.name}
               id={gasItem.name}
               className={({ isSelected }) =>
-                `rounded-2xl border-none px-16 py-4 ${isSelected ? "bg-black text-white drop-shadow" : "bg-white text-black"} `
+                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-green-700 text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"} `
               }
             >
               {gasItem.name}
@@ -182,7 +182,7 @@ export function ShopPage() {
 
         <div className="mt-[120px] w-full text-center">
           <label className="flex flex-col items-center justify-center gap-16">
-            <span>Litrlar sonini kiriting</span>
+            <span>Litrni kiriting</span>
             <input
               type="number"
               placeholder="0"
