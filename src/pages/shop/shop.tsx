@@ -186,7 +186,7 @@ export function ShopPage() {
             <input
               type="number"
               onChange={(e) => setUserInputAmount(Number(e.target.value))}
-              className="w-[80px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
+              className="w-[60px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
             />
           </label>
         </div>
