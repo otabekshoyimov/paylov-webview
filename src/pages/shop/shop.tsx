@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { useFetcher, useLoaderData } from "react-router";
+import { redirect, useFetcher, useLoaderData } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
 
 type GasRule = {
@@ -68,9 +68,9 @@ export async function shopPageAction({ request }: { request: Request }) {
   console.log("quan:", JSON.parse(quantities));
 
   const url = new URL(request.url);
-  const name = url.searchParams.get("name");
-  const phoneNumber = url.searchParams.get("phoneNumber");
-  const location = url.searchParams.get("location");
+  const name = String(url.searchParams.get("name"));
+  const phoneNumber = String(url.searchParams.get("phoneNumber"));
+  const location = String(url.searchParams.get("location"));
 
   console.log("GASGO ORDER DATA ⛽️:", {
     name: name,
@@ -78,6 +78,14 @@ export async function shopPageAction({ request }: { request: Request }) {
     location: location,
     quantities: JSON.parse(quantities),
   });
+  return redirect(
+    `/shop?${new URLSearchParams({
+      name: name,
+      phoneNumber: phoneNumber?.split(" ").join(""),
+      location: location,
+      quantities: quantities,
+    })}`,
+  );
 }
 
 export function ShopPage() {
