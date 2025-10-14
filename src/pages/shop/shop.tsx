@@ -146,7 +146,7 @@ export function ShopPage() {
       <header className="flex justify-center px-8 pb-8 text-zinc-200">
         <span>Yoqilg'i turi</span>
       </header>
-      <main className="flex flex-col items-center justify-center gap-16 px-8">
+      <main className="flex flex-col items-center justify-between gap-16 px-8">
         <ToggleButtonGroup
           selectionMode="single"
           disallowEmptySelection
@@ -180,7 +180,7 @@ export function ShopPage() {
           )}
         </div>
 
-        <div className="pt-[200px]">
+        <div className="mt-[120px] w-full text-center">
           <label className="flex flex-col items-center justify-center gap-8">
             <span>Litrlar sonini kiriting</span>
             <input
