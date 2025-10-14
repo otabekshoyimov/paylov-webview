@@ -185,8 +185,9 @@ export function ShopPage() {
             <span>Litrlar sonini kiriting</span>
             <input
               type="number"
+              placeholder="0"
               onChange={(e) => setUserInputAmount(Number(e.target.value))}
-              className="w-[60px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
+              className="w-[68px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
             />
           </label>
         </div>
