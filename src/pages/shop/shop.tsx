@@ -181,7 +181,7 @@ export function ShopPage() {
         </div>
 
         <div className="mt-[120px] w-full text-center">
-          <label className="flex flex-col items-center justify-center gap-8">
+          <label className="flex flex-col items-center justify-center gap-16">
             <span>Litrlar sonini kiriting</span>
             <input
               type="number"
