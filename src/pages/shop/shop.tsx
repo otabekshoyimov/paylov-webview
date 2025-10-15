@@ -70,13 +70,11 @@ type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
 
 export async function shopPageAction({ request }: { request: Request }) {
   const formData = await request.formData();
-  const userInputAmount = String(formData.get("userInputAmount"));
-  console.log("user input amount 🥶", userInputAmount);
+  const userOrderLitrAmount = String(formData.get("userOrderLitrAmount"));
+  console.log("user input amount 🥶", userOrderLitrAmount);
 
   console.log("❤️", Object.fromEntries(formData.entries()));
 
-  const quantities = String(formData.get("quantities"));
-  console.log("quan:", JSON.parse(quantities));
   const url = new URL(request.url);
   const name = String(url.searchParams.get("name"));
   const phoneNumber = String(url.searchParams.get("phoneNumber"));
@@ -86,14 +84,14 @@ export async function shopPageAction({ request }: { request: Request }) {
     name: name,
     phoneNumber: phoneNumber?.split(" ").join(""),
     location: location,
-    litr: userInputAmount,
+    amount: userOrderLitrAmount,
   });
   return redirect(
     `/shop?${new URLSearchParams({
       name: name,
       phoneNumber: phoneNumber?.split(" ").join(""),
       location: location,
-      litr: userInputAmount,
+      amount: userOrderLitrAmount,
     })}`,
   );
 }
@@ -101,7 +99,7 @@ export async function shopPageAction({ request }: { request: Request }) {
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
 
-  const [userInputAmount, setUserInputAmount] = useState<number>(0);
+  const [userOrderLitrAmount, setUserOrderLitrAmount] = useState<number>(0);
 
   const [selectedTab, setSelectedTab] = useState<Set<Key>>(
     new Set([gasGoAsync.gasTypes[0]?.name]),
@@ -111,7 +109,8 @@ export function ShopPage() {
 
   const selectedGas = gasGoAsync.gasTypes.find((g) => g.name === selectedName);
 
-  const gasgoDeliveryPrice = gasGoAsync.gasRule.deliveryPrice / 100;
+  const gasgoDeliveryPrice =
+    userOrderLitrAmount < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
 
   function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo) {
     return gasGoAsync.gasTypes.map((item) => ({
@@ -126,14 +125,11 @@ export function ShopPage() {
     if (!selectedGas) return 0;
 
     const pricePerLiter = selectedGas.price / 100;
-    const totalLiters = userInputAmount;
-    if (!totalLiters) return 0;
+    if (!userOrderLitrAmount) return 0;
 
-    const totalCost = pricePerLiter * totalLiters;
-    const deliveryPrice =
-      totalLiters < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
+    const totalCost = pricePerLiter * userOrderLitrAmount;
 
-    return totalCost + deliveryPrice;
+    return totalCost + gasgoDeliveryPrice;
   }
 
   const fetcher = useFetcher();
@@ -184,11 +180,13 @@ export function ShopPage() {
           <label className="flex flex-col items-center justify-center gap-16">
             <span>Litrni kiriting</span>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               placeholder="0"
+              maxLength={2}
               onChange={(e) => {
                 const value = e.target.value.slice(0, 2);
-                setUserInputAmount(Number(value));
+                setUserOrderLitrAmount(Number(value));
               }}
               className="w-[78px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
             />
@@ -207,8 +205,8 @@ export function ShopPage() {
             </span>
             <input
               type="hidden"
-              value={userInputAmount}
-              name="userInputAmount"
+              value={userOrderLitrAmount}
+              name="userOrderLitrAmount"
             />
           </div>
           <div className="flex items-center gap-8">

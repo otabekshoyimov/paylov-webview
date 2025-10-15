@@ -62,22 +62,17 @@ export function IndexPage() {
       <header className="pb-16 pt-[36px]">
         <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
-      <main className="flex items-center justify-center">
-        <Form
-          method="POST"
-          className="min-w-[320px]"
-          id="gasgo-order"
-          viewTransition
-        >
-          <div className="flex w-full flex-col justify-center gap-16 pb-16">
-            <label className="flex flex-col gap-8">
+      <main className="flex items-center justify-center rounded-md border-2 border-solid border-zinc-600 drop-shadow-md">
+        <Form method="POST" className="" id="gasgo-order" viewTransition>
+          <div className="flex w-full flex-col justify-center gap-16 bg-zinc-600/10">
+            <label className="flex flex-col gap-8 p-16">
               <span className="text-white">Ism</span>
 
               <input
                 type="text"
                 placeholder="Ism"
                 name="name"
-                className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
+                className="outline-solid rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
               />
               {errors?.name && (
                 <ValidationError>
@@ -89,7 +84,7 @@ export function IndexPage() {
             <label className="flex flex-col gap-8">
               <span className="text-white"> Telefon raqam</span>
 
-              <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
+              <div className="outline-solid rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
                 <span className="pr-16 text-white">+998</span>
                 <input
                   type="tel"
@@ -98,7 +93,7 @@ export function IndexPage() {
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     handlePhoneNumber(e)
                   }
-                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
+                  className="-ml-16 rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
                 />
               </div>
               {errors?.phoneNumber && (
@@ -111,7 +106,7 @@ export function IndexPage() {
         </Form>
       </main>
       <footer className="flex w-full flex-col gap-16 pb-16">
-        <div className="mx-auto max-w-[260px] text-center text-xs text-zinc-200">
+        <div className="mx-auto text-center text-xs text-zinc-200">
           Davom etish orqali siz{" "}
           <span className="font-medium text-white">
             Foydalanish shartlariga{" "}
