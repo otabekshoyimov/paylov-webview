@@ -11,6 +11,7 @@ import {
 } from "react-leaflet";
 import { Form, redirect } from "react-router";
 import { BackButton } from "../../shared/components/back-button";
+import { LocateFixed } from "lucide-react";
 
 const selectedLocationIcon = new L.Icon({
   iconUrl:
@@ -178,7 +179,7 @@ function LocateButton({
       onClick={handleClick}
       className="absolute bottom-24 right-24 z-[1000] rounded-full bg-white p-16 shadow-md transition hover:scale-105"
     >
-      📍
+      <LocateFixed />
     </button>
   );
 }

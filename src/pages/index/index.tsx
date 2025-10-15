@@ -62,10 +62,10 @@ export function IndexPage() {
       <header className="pb-16 pt-[36px]">
         <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
       </header>
-      <main className="flex items-center justify-center rounded-md border-2 border-solid border-zinc-600 drop-shadow-md">
+      <main className="flex items-center justify-center">
         <Form method="POST" className="" id="gasgo-order" viewTransition>
-          <div className="flex w-full flex-col justify-center gap-16 bg-zinc-600/10">
-            <label className="flex flex-col gap-8 p-16">
+          <div className="flex w-full flex-col justify-center gap-16">
+            <label className="flex flex-col gap-8">
               <span className="text-white">Ism</span>
 
               <input
