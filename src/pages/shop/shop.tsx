@@ -64,8 +64,8 @@ type ShopPageLoaderData = Awaited<ReturnType<typeof shopPageLoader>>;
 
 export async function shopPageAction({ request }: { request: Request }) {
   const formData = await request.formData();
-  const quantities = String(formData.get("quantities"));
-  console.log("quan:", JSON.parse(quantities));
+  const amount = String(formData.get("amount"));
+  console.log("amount:", JSON.parse(amount));
 
   const url = new URL(request.url);
   const name = String(url.searchParams.get("name"));
@@ -76,14 +76,14 @@ export async function shopPageAction({ request }: { request: Request }) {
     name: name,
     phoneNumber: phoneNumber?.split(" ").join(""),
     location: location,
-    quantities: JSON.parse(quantities),
+    amount: JSON.parse(amount),
   });
   return redirect(
     `/shop?${new URLSearchParams({
       name: name,
       phoneNumber: phoneNumber?.split(" ").join(""),
       location: location,
-      quantities: quantities,
+      amount: amount,
     })}`,
   );
 }
@@ -91,7 +91,7 @@ export async function shopPageAction({ request }: { request: Request }) {
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
 
-  const [quantities, setQuantities] = useState<{ [key: string]: number }>(
+  const [amount, setAmount] = useState<{ [key: string]: number }>(
     Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
   );
 
@@ -100,7 +100,7 @@ export function ShopPage() {
 
   function getTotalLitr(): number {
     let total = 0;
-    Object.entries(quantities).forEach(([_, val]) => {
+    Object.entries(amount).forEach(([_, val]) => {
       total = total + val;
     });
     return total;
@@ -115,23 +115,23 @@ export function ShopPage() {
 
   const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
 
-  function getTotalQuantity(): number {
+  function getTotalAmount(): number {
     let total = 0;
     for (const item of convertedGasTypes) {
-      total += quantities[item.name] * item.price;
+      total += amount[item.name] * item.price;
     }
     return total;
   }
 
-  const handleQuantityChange = (header: string, newQuantity: number): void => {
-    setQuantities((prev) => ({
+  const handleAmountChange = (header: string, newAmount: number): void => {
+    setAmount((prev) => ({
       ...prev,
-      [header]: newQuantity,
+      [header]: newAmount,
     }));
   };
 
   function getFinalTotal(): number {
-    const totalGasCost = getTotalQuantity();
+    const totalGasCost = getTotalAmount();
     const totalLiters = getTotalLitr();
 
     if (totalLiters === 0) {
@@ -160,8 +160,8 @@ export function ShopPage() {
             key={item.name}
             name={item.name}
             price={item.price}
-            quantity={quantities[item.name]}
-            handleQuantityChange={handleQuantityChange}
+            amount={amount[item.name]}
+            handleAmountChange={handleAmountChange}
           />
         ))}
       </main>
@@ -176,17 +176,13 @@ export function ShopPage() {
               ${deliveryPrice.toLocaleString("uz-UZ")} so'm`}
             </span>
             <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
-            <input
-              type="hidden"
-              value={JSON.stringify(quantities)}
-              name="quantities"
-            />
+            <input type="hidden" value={JSON.stringify(amount)} name="amount" />
           </div>
           <div className="flex items-center gap-8">
             <span> Jami: </span>
             <AnimatePresence initial={false} mode="popLayout">
               <motion.span
-                key={getTotalQuantity()}
+                key={getTotalAmount()}
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
@@ -210,8 +206,8 @@ export function ShopPage() {
 function GasgoOrderItem(props: {
   name: string;
   price: number;
-  handleQuantityChange: (header: string, newQuantity: number) => void;
-  quantity: number;
+  handleAmountChange: (header: string, newAmount: number) => void;
+  amount: number;
 }) {
   const fetcher = useFetcher();
 
@@ -225,30 +221,30 @@ function GasgoOrderItem(props: {
             <button
               type="button"
               onClick={() =>
-                props.handleQuantityChange(props.name, props.quantity - 1)
+                props.handleAmountChange(props.name, props.amount - 1)
               }
               className="text-2xl"
-              disabled={props.quantity === 0}
+              disabled={props.amount === 0}
             >
               -
             </button>
             <AnimatePresence initial={false} mode="popLayout">
               <motion.span
-                key={props.quantity}
+                key={props.amount}
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
                 className="inline-block w-[2ch] text-center text-lg tabular-nums"
               >
-                {props.quantity}
+                {props.amount}
               </motion.span>
             </AnimatePresence>
 
             <button
               type="button"
               onClick={() =>
-                props.handleQuantityChange(props.name, props.quantity + 1)
+                props.handleAmountChange(props.name, props.amount + 1)
               }
               className="text-2xl"
             >
