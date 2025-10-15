@@ -66,6 +66,11 @@ export async function shopPageAction({ request }: { request: Request }) {
   const formData = await request.formData();
   const amount = String(formData.get("amount"));
   console.log("amount:", JSON.parse(amount));
+  const gasGoAsync = String(formData.get("gasGoAsync"));
+  const totalLitr = String(formData.get("totalLitr"));
+
+  console.log("gasGoAsync", gasGoAsync);
+  console.log("totalLitr", totalLitr);
 
   const url = new URL(request.url);
   const name = String(url.searchParams.get("name"));
@@ -77,6 +82,8 @@ export async function shopPageAction({ request }: { request: Request }) {
     phoneNumber: phoneNumber?.split(" ").join(""),
     location: location,
     amount: JSON.parse(amount),
+    gasGoAsync: JSON.parse(gasGoAsync),
+    totalLitr: totalLitr,
   });
   return redirect(
     `/shop?${new URLSearchParams({
@@ -90,6 +97,7 @@ export async function shopPageAction({ request }: { request: Request }) {
 
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
+  console.log("gasgoasnyc", gasGoAsync);
 
   const [amount, setAmount] = useState<{ [key: string]: number }>(
     Object.fromEntries(gasGoAsync.gasTypes.map((item) => [item.name, 0])),
@@ -114,6 +122,8 @@ export function ShopPage() {
   }
 
   const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
+  console.log("convertedGasTypes", convertedGasTypes);
+  console.log("totalLitr", getTotalLitr());
 
   function getTotalAmount(): number {
     let total = 0;
@@ -176,6 +186,12 @@ export function ShopPage() {
               ${deliveryPrice.toLocaleString("uz-UZ")} so'm`}
             </span>
             <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
+            <input
+              type="hidden"
+              value={JSON.stringify(convertedGasTypes)}
+              name="gasGoAsync"
+            />
+            <input type="hidden" value={getTotalLitr()} name="totalLitr" />
             <input type="hidden" value={JSON.stringify(amount)} name="amount" />
           </div>
           <div className="flex items-center gap-8">
