@@ -68,6 +68,7 @@ export async function shopPageAction({ request }: { request: Request }) {
   console.log("amount:", JSON.parse(amount));
   const gasGoAsync = String(formData.get("gasGoAsync"));
   const totalLitr = String(formData.get("totalLitr"));
+  const deliveryPrice = String(formData.get("deliveryPrice"));
 
   console.log("gasGoAsync", gasGoAsync);
   console.log("totalLitr", totalLitr);
@@ -84,6 +85,7 @@ export async function shopPageAction({ request }: { request: Request }) {
     amount: JSON.parse(amount),
     gasGoAsync: JSON.parse(gasGoAsync),
     totalLitr: totalLitr,
+    deliveryPrice: deliveryPrice,
   });
   return redirect(
     `/shop?${new URLSearchParams({
@@ -91,6 +93,9 @@ export async function shopPageAction({ request }: { request: Request }) {
       phoneNumber: phoneNumber?.split(" ").join(""),
       location: location,
       amount: amount,
+      litr: totalLitr,
+      deliveryPrice: deliveryPrice,
+      gasGoAsync: gasGoAsync,
     })}`,
   );
 }
