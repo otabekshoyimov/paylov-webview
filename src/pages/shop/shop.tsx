@@ -69,6 +69,7 @@ export async function shopPageAction({ request }: { request: Request }) {
   const gasGoAsync = String(formData.get("gasGoAsync"));
   const totalLitr = String(formData.get("totalLitr"));
   const deliveryPrice = String(formData.get("deliveryPrice"));
+  const totalSum = String(formData.get("totalSum"));
 
   console.log("gasGoAsync", gasGoAsync);
   console.log("totalLitr", totalLitr);
@@ -85,6 +86,7 @@ export async function shopPageAction({ request }: { request: Request }) {
     amount: JSON.parse(amount),
     gasGoAsync: JSON.parse(gasGoAsync),
     totalLitr: totalLitr,
+    totalSum: totalSum,
     deliveryPrice: deliveryPrice,
   });
   return redirect(
@@ -95,6 +97,7 @@ export async function shopPageAction({ request }: { request: Request }) {
       amount: amount,
       litr: totalLitr,
       deliveryPrice: deliveryPrice,
+      totalSum: totalSum,
       gasGoAsync: gasGoAsync,
     })}`,
   );
@@ -191,6 +194,7 @@ export function ShopPage() {
               ${deliveryPrice.toLocaleString("uz-UZ")} so'm`}
             </span>
             <input type="hidden" value={deliveryPrice} name="deliveryPrice" />
+            <input type="hidden" value={getFinalTotal()} name="totalSum" />
             <input
               type="hidden"
               value={JSON.stringify(convertedGasTypes)}
