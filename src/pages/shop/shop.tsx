@@ -99,18 +99,35 @@ export async function shopPageAction({ request }: { request: Request }) {
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
 
-  const [userOrderLitrAmount, setUserOrderLitrAmount] = useState<number>(0);
+  const [tabInputs, setTabInputs] = useState<{ [key: string]: number }>({});
+  console.log("tab inputs", tabInputs);
+
+  console.log("obj", Object.entries(tabInputs));
+
+  function getTotalLitr(): number {
+    let total = 0;
+    for (const [key, val] of Object.entries(tabInputs)) {
+      console.log(key, val);
+      total = total + val;
+    }
+    return total;
+  }
+  console.log("tt litr", getTotalLitr());
 
   const [selectedTab, setSelectedTab] = useState<Set<Key>>(
     new Set([gasGoAsync.gasTypes[0]?.name]),
   );
 
-  const selectedName = Array.from(selectedTab)[0];
+  const selectedGasName = String(Array.from(selectedTab)[0]);
+  console.log("selected gas name", selectedGasName);
 
-  const selectedGas = gasGoAsync.gasTypes.find((g) => g.name === selectedName);
+  const selectedGasType = gasGoAsync.gasTypes.find(
+    (g) => g.name === selectedGasName,
+  );
+  console.log("selected gas type", selectedGasType);
 
   const gasgoDeliveryPrice =
-    userOrderLitrAmount < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
+    getTotalLitr() < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
 
   function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo) {
     return gasGoAsync.gasTypes.map((item) => ({
@@ -122,12 +139,12 @@ export function ShopPage() {
   const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
 
   function getFinalTotal(): number {
-    if (!selectedGas) return 0;
+    if (!selectedGasType) return 0;
 
-    const pricePerLiter = selectedGas.price / 100;
-    if (!userOrderLitrAmount) return 0;
+    const pricePerLiter = selectedGasType.price / 100;
+    if (!getTotalLitr()) return 0;
 
-    const totalCost = pricePerLiter * userOrderLitrAmount;
+    const totalCost = pricePerLiter * getTotalLitr();
 
     return totalCost + gasgoDeliveryPrice;
   }
@@ -159,7 +176,7 @@ export function ShopPage() {
               key={gasItem.name}
               id={gasItem.name}
               className={({ isSelected }) =>
-                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-green-700 text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"} `
+                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"} `
               }
             >
               {gasItem.name}
@@ -168,28 +185,34 @@ export function ShopPage() {
           <SelectionIndicator />
         </ToggleButtonGroup>
         <div>
-          {selectedGas && (
+          {selectedGasType && (
             <span>
-              1 litr narxi: {(selectedGas.price / 100).toLocaleString("uz-UZ")}{" "}
-              so'm
+              1 litr narxi:{" "}
+              {(selectedGasType.price / 100).toLocaleString("uz-UZ")} so'm
             </span>
           )}
         </div>
 
         <div className="mt-[120px] w-full text-center">
-          <label className="flex flex-col items-center justify-center gap-16">
-            <span>Litrni kiriting</span>
-            <input
-              type="text"
-              inputMode="numeric"
-              placeholder="0"
-              maxLength={2}
-              onChange={(e) => {
-                const value = e.target.value.slice(0, 2);
-                setUserOrderLitrAmount(Number(value));
-              }}
-              className="w-[78px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
-            />
+          <label className="flex max-w-full flex-col items-center gap-16">
+            <span>So'mni kiriting</span>
+            {selectedGasName && (
+              <input
+                key={selectedGasName}
+                type="text"
+                inputMode="numeric"
+                placeholder="0"
+                value={tabInputs[selectedGasName] ?? ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTabInputs((prev) => ({
+                    ...prev,
+                    [selectedGasName]: Number(value),
+                  }));
+                }}
+                className="w-[180px] rounded-md bg-zinc-300/10 px-24 py-10 text-center text-2xl ring-brand-green focus:outline-none"
+              />
+            )}
           </label>
         </div>
       </main>
@@ -199,13 +222,19 @@ export function ShopPage() {
           method="post"
         >
           <div>
-            <span>
+            <div>
               {`Yetkazib berish 30 litrgacha:
               ${gasgoDeliveryPrice.toLocaleString("uz-UZ")} so'm`}
-            </span>
+            </div>
+            <div>
+              {selectedGasType &&
+                (selectedGasType.price / 100).toLocaleString("uz-UZ")}{" "}
+              so'm * {""}
+              {`${getTotalLitr()} L`}
+            </div>
             <input
               type="hidden"
-              value={userOrderLitrAmount}
+              value={getTotalLitr()}
               name="userOrderLitrAmount"
             />
           </div>
