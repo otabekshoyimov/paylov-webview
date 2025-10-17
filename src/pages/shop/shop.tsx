@@ -98,25 +98,21 @@ export async function shopPageAction({ request }: { request: Request }) {
 
 export function ShopPage() {
   const gasGoAsync = useLoaderData<ShopPageLoaderData>();
-
-  const [tabInputs, setTabInputs] = useState<{ [key: string]: number }>({});
-  console.log("tab inputs", tabInputs);
-
-  console.log("obj", Object.entries(tabInputs));
-
-  function getTotalLitr(): number {
-    let total = 0;
-    for (const [key, val] of Object.entries(tabInputs)) {
-      console.log(key, val);
-      total = total + val;
-    }
-    return total;
-  }
-  console.log("tt litr", getTotalLitr());
+  const fetcher = useFetcher();
 
   const [selectedTab, setSelectedTab] = useState<Set<Key>>(
     new Set([gasGoAsync.gasTypes[0]?.name]),
   );
+  console.log("selectedTab", selectedTab);
+
+  const [tabMoneyInputs, setTabMoneyInputs] = useState<{
+    [key: string]: number;
+  }>({});
+  console.log("tab inputs", tabMoneyInputs);
+
+  const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
+  const totalLitr = getTotalLitr({ convertedGasTypes, tabMoneyInputs });
+  console.log("total litr", totalLitr);
 
   const selectedGasName = String(Array.from(selectedTab)[0]);
   console.log("selected gas name", selectedGasName);
@@ -126,30 +122,27 @@ export function ShopPage() {
   );
   console.log("selected gas type", selectedGasType);
 
-  const gasgoDeliveryPrice =
-    getTotalLitr() < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
+  const deliveryPrice =
+    totalLitr < 30 ? gasGoAsync.gasRule.deliveryPrice / 100 : 0;
 
-  function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo) {
-    return gasGoAsync.gasTypes.map((item) => ({
-      ...item,
-      price: item.price / 100,
-    }));
-  }
+  console.log("deliveryPrice 💵", deliveryPrice);
 
-  const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
+  const totalSums = getTotalSums({ tabMoneyInputs, gasGoAsync, totalLitr });
 
-  function getFinalTotal(): number {
-    if (!selectedGasType) return 0;
+  const litersPerTab = convertedGasTypes.map((gasType) => {
+    const enteredSum = tabMoneyInputs[gasType.name] ?? 0;
+    const pricePerLitr = gasType.price;
+    const liters = enteredSum / pricePerLitr;
 
-    const pricePerLiter = selectedGasType.price / 100;
-    if (!getTotalLitr()) return 0;
+    return {
+      name: gasType.name,
+      price: pricePerLitr,
+      enteredSum,
+      liters,
+    };
+  });
 
-    const totalCost = pricePerLiter * getTotalLitr();
-
-    return totalCost + gasgoDeliveryPrice;
-  }
-
-  const fetcher = useFetcher();
+  console.log("liters per tab", litersPerTab);
 
   return (
     <section className="flex min-h-[100svh] flex-col p-16 text-white">
@@ -201,11 +194,11 @@ export function ShopPage() {
                 key={selectedGasName}
                 type="text"
                 inputMode="numeric"
-                placeholder="0"
-                value={tabInputs[selectedGasName] ?? ""}
+                placeholder="0 so'm"
+                value={tabMoneyInputs[selectedGasName] ?? ""}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setTabInputs((prev) => ({
+                  setTabMoneyInputs((prev) => ({
                     ...prev,
                     [selectedGasName]: Number(value),
                   }));
@@ -222,24 +215,36 @@ export function ShopPage() {
           method="post"
         >
           <div>
-            <div>
-              {`Yetkazib berish 30 litrgacha:
-              ${gasgoDeliveryPrice.toLocaleString("uz-UZ")} so'm`}
+            <div className="flex gap-8 pb-8">
+              {deliveryPrice === 0 ? (
+                <span className="text-gray-400">
+                  Yetkazib berish:{" "}
+                  <span className="text-white">{deliveryPrice} so'm</span>
+                </span>
+              ) : (
+                <span className="text-gray-400">
+                  Yetkazib berish 30 L gacha: {""}
+                  <span className="text-white">
+                    {" "}
+                    {deliveryPrice.toLocaleString("uz-UZ")} so'm
+                  </span>
+                </span>
+              )}
             </div>
-            <div>
-              {selectedGasType &&
-                (selectedGasType.price / 100).toLocaleString("uz-UZ")}{" "}
-              so'm * {""}
-              {`${getTotalLitr()} L`}
+            <div className="flex flex-col gap-4">
+              {litersPerTab.map((item) => (
+                <div className="flex gap-4">
+                  <span>{item?.name}</span>
+                  <span>{item?.price?.toLocaleString("uz-UZ")}</span>
+                  <span>*</span>
+                  <span>{item?.liters.toFixed(2)} L</span>
+                </div>
+              ))}
             </div>
-            <input
-              type="hidden"
-              value={getTotalLitr()}
-              name="userOrderLitrAmount"
-            />
+            <input type="hidden" value={totalLitr} name="userOrderLitrAmount" />
           </div>
           <div className="flex items-center gap-8">
-            <span> Jami: </span>
+            <span className="text-gray-400"> Jami: </span>
             <AnimatePresence initial={false} mode="popLayout">
               <motion.span
                 initial={{ y: "100%", opacity: 0 }}
@@ -248,16 +253,74 @@ export function ShopPage() {
                 transition={{ duration: 0.25, ease: "easeInOut" }}
                 className="block tabular-nums leading-none"
               >
-                {`${getFinalTotal().toLocaleString("uz-UZ")} `}
+                {`${totalSums.toLocaleString("uz-UZ")} `}
               </motion.span>
             </AnimatePresence>
             <span>so'm</span>
           </div>
           <button className="rounded-md bg-white px-24 py-10 text-black">
-            To'lovni tasdiqlash
+            {`${totalSums.toLocaleString("uz-UZ")} so'm to'lash`}
           </button>
         </fetcher.Form>
       </footer>
     </section>
   );
+}
+
+function getTotalLitr({
+  tabMoneyInputs,
+  convertedGasTypes,
+}: {
+  tabMoneyInputs: Record<string, number>;
+  convertedGasTypes: {
+    price: number;
+    id: string;
+    name: string;
+  }[];
+}): number {
+  let totalLitr = 0;
+  for (const [gasName, enteredSum] of Object.entries(tabMoneyInputs)) {
+    const gasType = convertedGasTypes.find((g) => g.name === gasName);
+    if (!gasType) {
+      throw new Error(`Gas type not found for name: ${gasName}`);
+    }
+    const pricePerLitr = gasType.price;
+    console.log("total litr fn", gasName, enteredSum);
+    totalLitr = totalLitr + enteredSum / pricePerLitr;
+  }
+  return totalLitr;
+}
+
+function convertGasgoItemPriceFromTiyinToSums(gasGoAsync: GasGo): {
+  price: number;
+  id: string;
+  name: string;
+}[] {
+  return gasGoAsync.gasTypes.map((item) => ({
+    ...item,
+    price: item.price / 100,
+  }));
+}
+
+function getTotalSums({
+  tabMoneyInputs,
+  gasGoAsync,
+  totalLitr,
+}: {
+  tabMoneyInputs: Record<string, number>;
+  gasGoAsync: GasGo;
+  totalLitr: number;
+}): number {
+  let totalSum = 0;
+  for (const [_, enteredSum] of Object.entries(tabMoneyInputs)) {
+    totalSum = totalSum + enteredSum;
+  }
+  const hasEnteredAnyValue = totalSum > 0;
+
+  const gasgoDeliveryPrice =
+    hasEnteredAnyValue && totalLitr < 30
+      ? gasGoAsync.gasRule.deliveryPrice / 100
+      : 0;
+
+  return totalSum + gasgoDeliveryPrice;
 }
