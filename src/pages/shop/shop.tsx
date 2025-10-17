@@ -1,3 +1,4 @@
+import { CircleDashed, Truck } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import {
@@ -169,7 +170,7 @@ export function ShopPage() {
               key={gasItem.name}
               id={gasItem.name}
               className={({ isSelected }) =>
-                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"} `
+                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"}`
               }
             >
               {gasItem.name}
@@ -215,9 +216,13 @@ export function ShopPage() {
           method="post"
         >
           <div>
-            <div className="flex gap-8 pb-8">
+            <div className="flex gap-8 pb-16">
+              <span className="pr-4">
+                <Truck className="text-gray-500" />
+              </span>
+
               {deliveryPrice === 0 ? (
-                <span className="text-gray-400">
+                <span className="text-zinc-600/10">
                   Yetkazib berish:{" "}
                   <span className="text-white">{deliveryPrice} so'm</span>
                 </span>
@@ -231,9 +236,16 @@ export function ShopPage() {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-8 pb-16">
               {litersPerTab.map((item) => (
-                <div className="flex gap-4">
+                <div className="flex gap-8">
+                  <span className="pr-4">
+                    {item.name === "AI 92" ? (
+                      <CircleDashed className="text-green-400" />
+                    ) : (
+                      <CircleDashed className="text-red-400" />
+                    )}
+                  </span>
                   <span>{item?.name}</span>
                   <span>{item?.price?.toLocaleString("uz-UZ")}</span>
                   <span>*</span>
@@ -258,7 +270,7 @@ export function ShopPage() {
             </AnimatePresence>
             <span>so'm</span>
           </div>
-          <button className="rounded-md bg-white px-24 py-10 text-black">
+          <button className="rounded-3xl bg-white px-24 py-10 text-black">
             {`${totalSums.toLocaleString("uz-UZ")} so'm to'lash`}
           </button>
         </fetcher.Form>
