@@ -145,6 +145,11 @@ export function ShopPage() {
 
   console.log("liters per tab", litersPerTab);
 
+  const colorMap: Record<string, string> = {
+    "AI 92": "bg-green-600",
+    "AI 95": "bg-red-600",
+  };
+
   return (
     <section className="flex min-h-[100svh] flex-col p-16 text-white">
       <div className="pb-16">
@@ -169,9 +174,10 @@ export function ShopPage() {
             <ToggleButton
               key={gasItem.name}
               id={gasItem.name}
-              className={({ isSelected }) =>
-                `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? "outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow" : "bg-white text-black"}`
-              }
+              className={({ isSelected }) => {
+                const selectedColor = colorMap[gasItem.name];
+                return `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? `${selectedColor} outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow` : "bg-white text-black"}`;
+              }}
             >
               {gasItem.name}
             </ToggleButton>
