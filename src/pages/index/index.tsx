@@ -124,7 +124,7 @@ export function IndexPage() {
           type="submit"
           form="gasgo-order"
           tabIndex={0}
-          className="w-full rounded-md bg-white px-16 py-10 text-sm font-medium text-black"
+          className="w-full rounded-3xl bg-white px-16 py-10 text-sm font-medium text-black"
         >
           Buyurtmani boshlash
         </button>

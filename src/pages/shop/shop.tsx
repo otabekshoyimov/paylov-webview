@@ -219,7 +219,7 @@ export function ShopPage() {
             </AnimatePresence>
             <span>so'm</span>
           </div>
-          <button className="rounded-md bg-white px-24 py-10 text-sm font-medium text-black">
+          <button className="rounded-3xl bg-white px-24 py-10 text-sm font-medium text-black">
             To'lovni tasdiqlash
           </button>
         </fetcher.Form>
