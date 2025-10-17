@@ -141,7 +141,7 @@ export function LocationPage() {
             />
             <button
               type="submit"
-              className="w-full rounded-md bg-white px-24 py-10 font-medium text-black"
+              className="w-full rounded-md bg-white px-24 py-10 text-sm font-medium text-black"
             >
               Manzilni yuborish
             </button>

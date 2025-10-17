@@ -59,8 +59,8 @@ export function IndexPage() {
   }
   return (
     <section className="flex min-h-[100dvh] flex-col items-center justify-between gap-16 p-16">
-      <header className="pb-16 pt-[36px]">
-        <img src="/Logo_GASGO.png" alt="" width={80} height={80} />
+      <header className="pb-16 pt-[80px]">
+        <img src="/Logo_GASGO.png" alt="" width={70} height={70} />
       </header>
       <main className="flex items-center justify-center">
         <Form
@@ -70,7 +70,7 @@ export function IndexPage() {
           viewTransition
         >
           <div className="flex w-full flex-col justify-center gap-16 pb-16">
-            <label className="flex flex-col gap-8">
+            <label className="flex flex-col gap-8 text-sm font-medium">
               <span className="text-white">Ism</span>
 
               <input
@@ -86,11 +86,13 @@ export function IndexPage() {
               )}
             </label>
 
-            <label className="flex flex-col gap-8">
-              <span className="text-white"> Telefon raqam</span>
+            <label className="flex flex-col gap-8 text-sm font-medium">
+              <span className="text-white">Telefon raqam</span>
 
               <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
-                <span className="pr-16 text-white">+998</span>
+                <span className="pr-16 text-sm font-medium text-white">
+                  +998
+                </span>
                 <input
                   type="tel"
                   placeholder="00 000 00 00"
@@ -98,7 +100,7 @@ export function IndexPage() {
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     handlePhoneNumber(e)
                   }
-                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-white focus:outline-none"
+                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-sm font-medium text-white focus:outline-none"
                 />
               </div>
               {errors?.phoneNumber && (
@@ -122,7 +124,7 @@ export function IndexPage() {
           type="submit"
           form="gasgo-order"
           tabIndex={0}
-          className="w-full rounded-md bg-white px-16 py-10 text-black"
+          className="w-full rounded-md bg-white px-16 py-10 text-sm font-medium text-black"
         >
           Buyurtmani boshlash
         </button>

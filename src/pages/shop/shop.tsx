@@ -167,7 +167,7 @@ export function ShopPage() {
       <div className="pb-16">
         <BackButton link={"/location"} />
       </div>
-      <header className="flex justify-between px-8 pb-8 text-zinc-200">
+      <header className="flex justify-between border-b border-solid border-zinc-600/10 px-8 pb-8 text-sm font-medium text-zinc-200">
         <span>Benzin turi</span>
         <span className="pr-[58px]">Narx</span>
         <span className="pr-24">Litr</span>
@@ -219,7 +219,7 @@ export function ShopPage() {
             </AnimatePresence>
             <span>so'm</span>
           </div>
-          <button className="rounded-md bg-white px-24 py-10 text-black">
+          <button className="rounded-md bg-white px-24 py-10 text-sm font-medium text-black">
             To'lovni tasdiqlash
           </button>
         </fetcher.Form>
