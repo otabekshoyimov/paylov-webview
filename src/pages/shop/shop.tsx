@@ -244,7 +244,7 @@ export function ShopPage() {
             </div>
             <div className="flex flex-col gap-8 pb-16">
               {litersPerTab.map((item) => (
-                <div className="flex gap-8">
+                <div key={item.name} className="flex gap-8">
                   <span className="pr-4">
                     {item.name === "AI 92" ? (
                       <CircleDashed className="text-green-400" />
