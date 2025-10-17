@@ -112,6 +112,7 @@ export function ShopPage() {
   console.log("tab inputs", tabMoneyInputs);
 
   const convertedGasTypes = convertGasgoItemPriceFromTiyinToSums(gasGoAsync);
+  console.log("conv gas types", convertedGasTypes);
   const totalLitr = getTotalLitr({ convertedGasTypes, tabMoneyInputs });
   console.log("total litr", totalLitr);
 
@@ -176,9 +177,10 @@ export function ShopPage() {
               id={gasItem.name}
               className={({ isSelected }) => {
                 const selectedColor = colorMap[gasItem.name];
-                return `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? `${selectedColor} outline-solid bg-umar-aka-brat text-white outline outline-1 outline-white drop-shadow` : "bg-white text-black"}`;
+                return `rounded-2xl border-none px-16 py-4 text-2xl ${isSelected ? `${selectedColor} outline-solid text-white outline outline-1 outline-white drop-shadow` : "bg-white text-black"}`;
               }}
             >
+              <SelectionIndicator />
               {gasItem.name}
             </ToggleButton>
           ))}

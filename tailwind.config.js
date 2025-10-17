@@ -26,7 +26,7 @@ export default {
     extend: {
       colors: {
         'brand-green': '#199783',
-        'umar-aka-brat': 'rgba(0, 89, 33, 1)' 
+        // 'umar-aka-brat': 'rgba(0, 89, 33, 1)' 
       }
     },
   },
