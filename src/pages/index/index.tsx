@@ -70,14 +70,14 @@ export function IndexPage() {
           viewTransition
         >
           <div className="flex w-full flex-col justify-center gap-16 pb-16">
-            <label className="flex flex-col gap-8 text-sm font-medium">
-              <span className="text-white">Ism</span>
+            <label className="flex flex-col gap-8">
+              <span className="text-sm font-medium text-white">Ism</span>
 
               <input
                 type="text"
                 placeholder="Ism"
                 name="name"
-                className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-10 text-white ring-brand-green focus:outline-none focus:ring"
+                className="outline-solid min-w-[350px] rounded-md bg-zinc-300/10 px-24 py-8 text-white ring-brand-green focus:outline-none focus:ring"
               />
               {errors?.name && (
                 <ValidationError>
@@ -86,13 +86,13 @@ export function IndexPage() {
               )}
             </label>
 
-            <label className="flex flex-col gap-8 text-sm font-medium">
-              <span className="text-white">Telefon raqam</span>
+            <label className="flex flex-col gap-8">
+              <span className="text-sm font-medium text-white">
+                Telefon raqam
+              </span>
 
               <div className="outline-solid min-w-[264px] rounded-md bg-zinc-800 pl-16 text-base text-white ring-brand-green focus-within:ring focus-within:ring-brand-green focus:ring">
-                <span className="pr-16 text-sm font-medium text-white">
-                  +998
-                </span>
+                <span className="pr-16 text-white">+998</span>
                 <input
                   type="tel"
                   placeholder="00 000 00 00"
@@ -100,7 +100,7 @@ export function IndexPage() {
                   onChange={(e: React.FormEvent<HTMLInputElement>) =>
                     handlePhoneNumber(e)
                   }
-                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-10 text-sm font-medium text-white focus:outline-none"
+                  className="-ml-16 min-w-[264px] rounded-md bg-transparent bg-zinc-800 px-24 py-8 text-white focus:outline-none"
                 />
               </div>
               {errors?.phoneNumber && (
